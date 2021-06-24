@@ -2,7 +2,8 @@
 ## <font color=red size=4>MPU_6050.ino</font>
 <font size=2>MPU6050是经典的一款陀螺仪，这个文件里面包含了Arduino封装的MPU6050的驱动库，并且封装成了MPU6050类，使用起来较为方便。  
 
-~~因为是很早之前写的所以有些功能还未完善，比如防抖，以后有时间的话可能会向这里添加更多功能~~
+<font size=1>~~因为是很早之前写的所以有些功能还未完善，比如防抖，以后有时间的话可能会向这里添加更多功能~~
+</font>
 </font>
 ---
 ## <font color=red size=4>visual_MPU.pde.ino</font>
