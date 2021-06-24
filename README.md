@@ -8,4 +8,8 @@
 ### <font color=read size=3> - MPU6050</font>  
 <font size=2>关于MPU6050六轴加速度计的相关内容</font>
 ### <font color=read size=3>- SerialControl</font>  
-<font size=2>这里是关于Arduino串口调试的的相关内容~~垃圾堆~~</font>
+<font size=2>关于Arduino串口调试的的相关内容~~垃圾堆~~
+</font>
+### <font color=read size=3>- LittleCarFixed</font>  
+<font size=2>关于省赛装配小车的相关内容**目前更新中**
+</font>
