@@ -1,5 +1,8 @@
-//包含软串口通信
-#include <SoftwareSerial.h>
+///*
+//上位机Mega
+#define Opin 39
+#define Ipin 38
+//*/
 #define a0 46   //左侧循迹
 #define a1 47   //前1循迹
 #define a2 48   //前2循迹
@@ -141,31 +144,29 @@ SpeedSetting angleMode;
 SpeedSetting Cross_Left_Mode;
 //原地右转
 SpeedSetting Cross_Right_Mode;
-SoftwareSerial Connect(39, 38);
 
 //挂起进程直到读取到信息
 void Wait_For_signal()
 {
-    while (Connect.read() != 'G')
+    while (1)
     {
-        Connect.flush();
+        if (digitalRead(Ipin) == HIGH)
+            break;
     }
 }
 //发送信息
 void Send_signal()
 {
-    Connect.write('G');
-    Serial.println("AAAAAA");
-    Connect.flush();
-    Serial.println("BBBBB");
+    digitalWrite(Opin, HIGH);
+    delay(200);
+    digitalWrite(Opin, LOW);
 }
 
 void setup()
 {
-    Connect.begin(9600);
-    //开始监听软串口通信
-    Connect.listen();
-    //确认监听状态
+    //初始化通信口
+    pinMode(Opin, OUTPUT);
+    pinMode(Ipin, INPUT);
     // put your setup code here, to run once:
     pinMode(a0, INPUT);
     pinMode(a1, INPUT); //定义循迹
