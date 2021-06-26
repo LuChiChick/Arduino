@@ -3,7 +3,7 @@
 ## <font color=red size=4>仓库相关</font>
 ### <font color=read size=3> 这个仓库会关联到个人的GitHub以及本地的GitLab，详见如下:</font>
 [GitHub](https://github.com/LuChiChick/Arduino)  
-[GitLab](http://10.26.26.75/LuChiChick/Arduino)
+~~[GitLab(仅限学校内网，不推荐)](http://10.26.26.75/LuChiChick/Arduino)~~
 ## <font color=red size=4>目录</font>
 ### <font color=read size=3> - MPU6050</font>  
 <font size=2>关于MPU6050六轴加速度计的相关内容</font>
