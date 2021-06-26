@@ -55,7 +55,7 @@ void resetServo()
 void Move(Servo_Setting Setting)
 {
     //对各个舵机当前的状态进行操作,根据需要移动的角度判断该怎么动
-    while()
+    while(1);
 }
 
 //抓取装配台零件并存放
