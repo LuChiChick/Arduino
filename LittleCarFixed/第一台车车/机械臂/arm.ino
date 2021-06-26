@@ -73,7 +73,9 @@ void Move(Servo_Setting Setting)
 {
     //对各个舵机当前的状态进行操作,根据需要移动的角度判断该怎么动
     //当没达到的时候当然一直进行移动咯
-    while(!All_attached(Setting,ServoChain));
+    while(!All_attached(Setting,ServoChain)){
+        
+    }
 }
 
 //抓取装配台零件并存放
