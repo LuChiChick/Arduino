@@ -47,12 +47,12 @@ void resetServo()
     //机械臂复位使用配置
     Servo_Setting resetSetting;
     //这里需要对设置文件进行配置,如下
-    resetSetting.Servo1_angle=100;
-    resetSetting.Servo2_angle=100;
-    resetSetting.Servo3_angle=100;
-    resetSetting.Servo4_angle=100;
-    resetSetting.Servo5_angle=100;
-    resetSetting.Servo6_angle=100;
+    resetSetting.Servo1_angle=0;
+    resetSetting.Servo2_angle=90;
+    resetSetting.Servo3_angle=90;
+    resetSetting.Servo4_angle=0;
+    resetSetting.Servo5_angle=90;
+    resetSetting.Servo6_angle=15;
 
     Move(resetSetting);
 }
@@ -146,6 +146,7 @@ void Catch_Item(uint8_t WhichOne)
     switch (WhichOne)
     {
     case 1:
+
     case 2:
     case 3:
     case 4:
@@ -194,11 +195,19 @@ void setup()
     ServoChain[3].ThisServo.attach(Servo4);
     ServoChain[4].ThisServo.attach(Servo5);
     ServoChain[5].ThisServo.attach(Servo6);
+    resetServo();
     Serial.begin(9600);
 }
 
 void loop()
 {
+    delay(5000);
+    Servo_Setting Setting1=Get_Setting_FromChain(ServoChain);
+    Setting1.Servo6_angle=100;
+    Move(Setting1);
+    Setting1.Servo1_angle=20;
+    Move(Setting1);
+    while(1);
     //舵机复位
     resetServo();
     //等待信息
