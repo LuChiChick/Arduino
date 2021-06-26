@@ -1,7 +1,7 @@
 ///*
 //上位机Mega
-#define Opin 39
-#define Ipin 38
+#define Opin 35
+#define Ipin 34
 //*/
 #define a0 46   //左侧循迹
 #define a1 47   //前1循迹
