@@ -56,6 +56,7 @@ void Catch_Item_From_Storage(uint8_t WhichOne)
     default:
         break;
     }
+    //抓取完之后应该将机械臂置于刚好对准的状态
 }
 
 //投放零件
@@ -83,9 +84,32 @@ void loop()
     //舵机复位
     resetServo();
     //等待信息
+    //Wait_For_Signal()
+    //循环存放
     for(int count=0;count<5;count++){
         Catch_Item(count);
-        
+        //抓取完毕后发送信息
+        //Send_Signal()
+    }
+
+    //此处抓取部分完成，小车进入装配区域
+
+    //舵机复位
+    resetServo();
+    //等待信息
+    //Wait_For_Signal()
+    //循环拿取存储并装配
+    for(int count=0;count<5;count++){
+        //等待小车就位后抓取零件
+        //Wait_For_Signal()
+        Catch_Item(count);
+        //抓取完毕后发送信息并等待下层就绪
+        //Send_Signal()
+        //Wait_For_Signal()
+        //循环存放
+        PutItem(count);
+        //发送信息表示投放完成
+        //Send_Signal()
     }
 
 }
