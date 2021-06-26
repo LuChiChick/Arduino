@@ -30,14 +30,15 @@ typedef struct
 } Servo_Setting;
 
 //从舵机串返回舵机信息
-Servo_Setting Get_Setting_FromChain(Servos Chain[6]){
+Servo_Setting Get_Setting_FromChain(Servos Chain[6])
+{
     Servo_Setting tempSetting;
-    tempSetting.Servo1_angle=Chain[0].angle;
-    tempSetting.Servo2_angle=Chain[1].angle;
-    tempSetting.Servo3_angle=Chain[2].angle;
-    tempSetting.Servo4_angle=Chain[3].angle;
-    tempSetting.Servo5_angle=Chain[4].angle;
-    tempSetting.Servo6_angle=Chain[5].angle;
+    tempSetting.Servo1_angle = Chain[0].angle;
+    tempSetting.Servo2_angle = Chain[1].angle;
+    tempSetting.Servo3_angle = Chain[2].angle;
+    tempSetting.Servo4_angle = Chain[3].angle;
+    tempSetting.Servo5_angle = Chain[4].angle;
+    tempSetting.Servo6_angle = Chain[5].angle;
     return tempSetting;
 }
 //机械臂复位
@@ -52,29 +53,91 @@ void resetServo()
 }
 
 //判断舵机位置是否达到设置指向的位置
-bool All_attached(Servo_Setting Setting,Servos Chain[6]){
-    if(Setting.Servo1_angle!=Chain[0].angle);
-        return false;
-    if(Setting.Servo2_angle!=Chain[1].angle);
-        return false;
-    if(Setting.Servo3_angle!=Chain[2].angle);
-        return false;
-    if(Setting.Servo4_angle!=Chain[3].angle);
-        return false;
-    if(Setting.Servo5_angle!=Chain[4].angle);
-        return false;
-    if(Setting.Servo6_angle!=Chain[5].angle);
-        return false;
+bool All_attached(Servo_Setting Setting, Servos Chain[6])
+{
+    if (Setting.Servo1_angle != Chain[0].angle)
+        ;
+    return false;
+    if (Setting.Servo2_angle != Chain[1].angle)
+        ;
+    return false;
+    if (Setting.Servo3_angle != Chain[2].angle)
+        ;
+    return false;
+    if (Setting.Servo4_angle != Chain[3].angle)
+        ;
+    return false;
+    if (Setting.Servo5_angle != Chain[4].angle)
+        ;
+    return false;
+    if (Setting.Servo6_angle != Chain[5].angle)
+        ;
+    return false;
     return true;
 }
 
 //根据舵机配置文件移动各个舵机
 void Move(Servo_Setting Setting)
 {
+    
     //对各个舵机当前的状态进行操作,根据需要移动的角度判断该怎么动
     //当没达到的时候当然一直进行移动咯
-    while(!All_attached(Setting,ServoChain)){
-        
+    while (!All_attached(Setting, ServoChain))
+    {
+        if (ServoChain[0].angle != Setting.Servo1_angle)
+        {
+            if(ServoChain[0].angle > Setting.Servo1_angle)
+                ServoChain[0].angle--;
+            else
+                ServoChain[0].angle++;
+            ServoChain[0].ThisServo.write(ServoChain[0].angle);
+            delay(50);
+        }
+        if (ServoChain[1].angle != Setting.Servo2_angle)
+        {
+            if(ServoChain[1].angle > Setting.Servo2_angle)
+                ServoChain[1].angle--;
+            else
+                ServoChain[1].angle++;
+            ServoChain[1].ThisServo.write(ServoChain[1].angle);
+            delay(50);
+        }
+        if (ServoChain[2].angle != Setting.Servo3_angle)
+        {
+            if(ServoChain[2].angle > Setting.Servo3_angle)
+                ServoChain[2].angle--;
+            else
+                ServoChain[2].angle++;
+            ServoChain[2].ThisServo.write(ServoChain[2].angle);
+            delay(50);
+        }
+        if (ServoChain[3].angle != Setting.Servo4_angle)
+        {
+            if(ServoChain[3].angle > Setting.Servo4_angle)
+                ServoChain[3].angle--;
+            else
+                ServoChain[3].angle++;
+            ServoChain[3].ThisServo.write(ServoChain[3].angle);
+            delay(50);
+        }
+        if (ServoChain[4].angle != Setting.Servo5_angle)
+        {
+            if(ServoChain[4].angle > Setting.Servo5_angle)
+                ServoChain[4].angle--;
+            else
+                ServoChain[4].angle++;
+            ServoChain[4].ThisServo.write(ServoChain[4].angle);
+            delay(50);
+        }
+        if (ServoChain[5].angle != Setting.Servo6_angle)
+        {
+            if(ServoChain[5].angle > Setting.Servo6_angle)
+                ServoChain[5].angle--;
+            else
+                ServoChain[5].angle++;
+            ServoChain[5].ThisServo.write(ServoChain[5].angle);
+            delay(50);
+        }
     }
 }
 
@@ -142,7 +205,8 @@ void loop()
     //等待信息
     //Wait_For_Signal()
     //循环存放
-    for(int count=0;count<5;count++){
+    for (int count = 0; count < 5; count++)
+    {
         Catch_Item(count);
         //抓取完毕后发送信息
         //Send_Signal()
@@ -155,7 +219,8 @@ void loop()
     //等待信息
     //Wait_For_Signal()
     //循环拿取存储并装配
-    for(int count=0;count<5;count++){
+    for (int count = 0; count < 5; count++)
+    {
         //等待小车就位后抓取零件
         //Wait_For_Signal()
         Catch_Item(count);
@@ -167,5 +232,4 @@ void loop()
         //发送信息表示投放完成
         //Send_Signal()
     }
-
 }
