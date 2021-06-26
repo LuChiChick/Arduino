@@ -51,11 +51,29 @@ void resetServo()
     Move(resetSetting);
 }
 
+//判断舵机位置是否达到设置指向的位置
+bool All_attached(Servo_Setting Setting,Servos Chain[6]){
+    if(Setting.Servo1_angle!=Chain[0].angle);
+        return false;
+    if(Setting.Servo2_angle!=Chain[1].angle);
+        return false;
+    if(Setting.Servo3_angle!=Chain[2].angle);
+        return false;
+    if(Setting.Servo4_angle!=Chain[3].angle);
+        return false;
+    if(Setting.Servo5_angle!=Chain[4].angle);
+        return false;
+    if(Setting.Servo6_angle!=Chain[5].angle);
+        return false;
+    return true;
+}
+
 //根据舵机配置文件移动各个舵机
 void Move(Servo_Setting Setting)
 {
     //对各个舵机当前的状态进行操作,根据需要移动的角度判断该怎么动
-    while(1);
+    //当没达到的时候当然一直进行移动咯
+    while(!All_attached(Setting,ServoChain));
 }
 
 //抓取装配台零件并存放
