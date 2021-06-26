@@ -1,12 +1,22 @@
-#机械臂重构代码
+//机械臂重构代码
 #include <Servo.h>
+//机械臂各个舵机引脚定义
+#define Servo1 10
+#define Servo2 A2
+#define Servo3 A3
+#define Servo4 A0
+#define Servo5 A1
+#define Servo6 7
 
-//舵机信息
+//舵机信息体
 typedef struct
 {
     Servo ThisServo;
     uint8_t angle;
 } Servos;
+
+//机械臂状态记录
+Servos ServoChain[6];
 
 //机械臂配置文件,用于Move()
 typedef struct
@@ -22,6 +32,12 @@ typedef struct
 //机械臂复位
 void resetServo()
 {
+    //机械臂复位使用配置
+    Servo_Setting resetSetting;
+    //这里需要对设置文件进行配置,如下
+    //resetSetting.Servo1_angle=100;
+
+    Move(resetSetting);
 }
 
 //根据舵机配置文件移动各个舵机
@@ -42,6 +58,7 @@ void Catch_Item(uint8_t WhichOne)
     default:
         break;
     }
+    //抓完之后记得放进去然后归位
 }
 
 //抓取存储内零件
@@ -76,6 +93,12 @@ void PutItem(uint8_t WhichOne)
 
 void setup()
 {
+    ServoChain[0].ThisServo.attach(Servo1);
+    ServoChain[1].ThisServo.attach(Servo2);
+    ServoChain[2].ThisServo.attach(Servo3);
+    ServoChain[3].ThisServo.attach(Servo4);
+    ServoChain[4].ThisServo.attach(Servo5);
+    ServoChain[5].ThisServo.attach(Servo6);
     Serial.begin(9600);
 }
 
