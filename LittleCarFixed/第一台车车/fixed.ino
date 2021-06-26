@@ -153,12 +153,15 @@ void Wait_For_signal()
         if (digitalRead(Ipin) == HIGH)
             break;
     }
+    //收信延迟
+    delay(2000);
 }
 //发送信息
 void Send_signal()
 {
     digitalWrite(Opin, HIGH);
-    delay(200);
+    //发信延迟
+    delay(500);
     digitalWrite(Opin, LOW);
 }
 
@@ -167,6 +170,7 @@ void setup()
     //初始化通信口
     pinMode(Opin, OUTPUT);
     pinMode(Ipin, INPUT);
+    digitalWrite(Opin, LOW);
     // put your setup code here, to run once:
     pinMode(a0, INPUT);
     pinMode(a1, INPUT); //定义循迹
@@ -225,6 +229,7 @@ void setup()
 //主体流程
 void loop()
 {
+    /*
     GoTill(ahead, isEnd, 220, 100);
     delay(500);
     GoTill(back, isT, 220, 100);
@@ -232,6 +237,7 @@ void loop()
     TurnTill(Cross_Left_Mode, attached);
     delay(500);
     Move(ahead, 200);
+    */
     delay(200);
     GoTill(ahead, isCross, 200, 100);
     //到达十字路口，发送信号并等待上层机械臂就位
@@ -240,7 +246,6 @@ void loop()
     for (int count = 0; count < 5; count++)
     {
         Send_signal();
-        Serial.println("Sended!!!!!!!");
         Wait_For_signal();
         GoTill(ahead, get_close, 230, 100);
         Send_signal();
