@@ -47,7 +47,12 @@ void resetServo()
     //机械臂复位使用配置
     Servo_Setting resetSetting;
     //这里需要对设置文件进行配置,如下
-    //resetSetting.Servo1_angle=100;
+    resetSetting.Servo1_angle=100;
+    resetSetting.Servo2_angle=100;
+    resetSetting.Servo3_angle=100;
+    resetSetting.Servo4_angle=100;
+    resetSetting.Servo5_angle=100;
+    resetSetting.Servo6_angle=100;
 
     Move(resetSetting);
 }
