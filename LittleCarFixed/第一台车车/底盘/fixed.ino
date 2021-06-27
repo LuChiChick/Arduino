@@ -1,8 +1,3 @@
-///*
-//上位机Mega
-#define Opin 35
-#define Ipin 34
-//*/
 #define a0 46   //左侧循迹
 #define a1 47   //前1循迹
 #define a2 48   //前2循迹
@@ -148,29 +143,27 @@ SpeedSetting Cross_Right_Mode;
 //挂起进程直到读取到信息
 void Wait_For_signal()
 {
-    while (1)
-    {
-        if (digitalRead(Ipin) == HIGH)
+    String Cmd;
+    while(1){
+        if(Serial.available())
+            //重点,从约定的'.'符号开始读取命令，滤掉杂波
+            if(Serial.read()=='.'){
+                //以约定的'\'结尾，中间的就是命令
+                Cmd=Serial.readStringUntil('\\');
+                Serial.println(Cmd);
+            }
+        if(Cmd=="Go.")
             break;
     }
-    //收信延迟
-    delay(2000);
 }
 //发送信息
-void Send_signal()
-{
-    digitalWrite(Opin, HIGH);
-    //发信延迟
-    delay(500);
-    digitalWrite(Opin, LOW);
+void Send_signal(){
+    Serial.println(".Go.\\");
 }
 
 void setup()
 {
-    //初始化通信口
-    pinMode(Opin, OUTPUT);
-    pinMode(Ipin, INPUT);
-    digitalWrite(Opin, LOW);
+
     // put your setup code here, to run once:
     pinMode(a0, INPUT);
     pinMode(a1, INPUT); //定义循迹
