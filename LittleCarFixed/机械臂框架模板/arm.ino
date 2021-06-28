@@ -172,7 +172,7 @@ void resetServoChain()
     resetSetting.Servo5_angle = 15;
 
     //看情况需要加入配速
-    Move(resetSetting);
+    Move(resetSetting,50);
 }
 
 //抓取装配台零件并存放
