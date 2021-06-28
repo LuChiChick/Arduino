@@ -35,7 +35,9 @@
 ![双板通信接线方法](/LittleCarFixed/image/双板通信接线方法.jpg)
 
 当多板通信的时候可以接成以下状态,但是需要约定不同的收发信息  
-![多板通信接线](/LittleCarFixed/image/多板通信接线.png)
+
+![多板通信接线](/LittleCarFixed/image/多板通信接线.png)  
+
 使用模拟口通信的时候稍加更改即可使用
 ### 3.机械臂框架模板
 主体概览:
