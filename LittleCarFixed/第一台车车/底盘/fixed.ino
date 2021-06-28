@@ -150,7 +150,6 @@ void Wait_For_signal()
             if(Serial.read()=='.'){
                 //以约定的'\'结尾，中间的就是命令
                 Cmd=Serial.readStringUntil('\\');
-                Serial.println(Cmd);
             }
         if(Cmd=="Go.")
             break;
@@ -234,10 +233,11 @@ void loop()
     delay(200);
     GoTill(ahead, isCross, 200, 100);
     //到达十字路口，发送信号并等待上层机械臂就位
-
-    delay(500);
     for (int count = 0; count < 5; count++)
     {
+        delay(500);
+        GoTill(ahead, get_close, 230, 100);
+        GoTill(back, isT, 200, 100);
         Send_signal();
         Wait_For_signal();
         GoTill(ahead, get_close, 230, 100);
@@ -246,7 +246,7 @@ void loop()
         GoTill(back, isT, 200, 100);
         TurnTill(Cross_Right_Mode, attached);
         delay(500);
-        Move(ahead, 220);
+        Move(ahead, 300);
         delay(150);
         GoTill(ahead, isCross, 220, 100);
         delay(500);
