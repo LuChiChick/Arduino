@@ -64,7 +64,9 @@ void TurnTill(SpeedSetting Setting, bool (*int_Func)(void));
 void FixTill(bool (*int_Func)(void));
 //T型路口转向
 void Turn(SpeedSetting Setting);
-//状态判断函数区:
+
+
+//状态判断函数(int_Func)区:
 bool isEnd()
 {
     switch (GetSensor() & 0b011110000)
