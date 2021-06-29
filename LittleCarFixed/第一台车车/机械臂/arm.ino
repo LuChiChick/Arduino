@@ -30,7 +30,7 @@ struct angle_Setting
 };
 
 //机械臂速度配置结构体,用于Move()的可选参数，决定每个舵机移动的时延
-struct speed_setting
+struct speed_Setting
 {
     uint8_t Servo0_delay;
     uint8_t Servo1_delay;
@@ -72,7 +72,7 @@ bool All_attached(angle_Setting angle_s, Servos Chain[6])
 }
 
 //根据舵机配置结构体移动各个舵机到对应角度，可选调速配置,不提供的话默认每组移动defdelay
-void Move(angle_Setting angle_s,unsigned long defdelay,speed_setting* speed_s=NULL)
+void Move(angle_Setting angle_s,unsigned long defdelay,speed_Setting* speed_s=NULL)
 {
     //对各个舵机当前的状态进行操作,根据需要移动的角度判断该怎么动
     //当没达到的时候当然一直进行移动咯
