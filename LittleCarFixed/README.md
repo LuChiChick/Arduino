@@ -7,7 +7,7 @@
 - 串口调试程序
   - 用于机械臂粗调的程序
 - 通信范本
-  - 这里是舵机控制板和底盘控制板之间使用的通信
+  - 这里是舵机控制板和底盘控制板之间使用的通信程序....的使用实例
 - 机械臂模板框架
   - 里面是一份没有填入动作组的机械臂程序框架
 - 技术路线
@@ -58,7 +58,7 @@
     //综上，内部需要使用Move()实现各种动作组，并填充case标签
 ```
 **需要注意的是**  
-`Move(angle_Setting angle_s,unsigned long defdelay,speed_setting* speed_s=NULL)`  
+`Move(angle_Setting angle_s,unsigned long defdelay,speed_Setting* speed_s=NULL)`  
 是一个泛用性很强的封装，根据配置结构体传参的写法会非常灵活，稍加更改即可用于多种机械臂的运动  
 
 其内部的实现逻辑大概是如下：  
