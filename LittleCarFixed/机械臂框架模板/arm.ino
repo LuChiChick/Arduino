@@ -15,7 +15,7 @@ struct Servos
     uint8_t angle;
 };
 
-//舵机串，用于机械臂状态记录,不要手动更改！！！不要手动更改！！！！！！
+//舵机串，用于机械臂状态记录,不要手动更改！！！不要手动更改！！！！！！不要手动更改！！！！！
 Servos ServoChain[6];
 
 //机械臂角度配置结构体,用于Move()
@@ -249,7 +249,7 @@ void Send_signal(){
 //设置阶段
 void setup()
 {
-    //舵机串的设置，不可更改！！！！
+    //舵机串的设置，不可手动更改！！！！
     ServoChain[0].ThisServo.attach(Servo1);
     ServoChain[1].ThisServo.attach(Servo2);
     ServoChain[2].ThisServo.attach(Servo3);
