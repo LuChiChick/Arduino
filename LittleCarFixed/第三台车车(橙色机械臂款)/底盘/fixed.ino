@@ -239,15 +239,15 @@ void loop()
     {
         //这里进出是为了保证接下来小车对准装配孔
         delay(500);
-        GoTill(ahead, get_close, 230, 100);
-        GoTill(back, isT, 200, 100);
+        //GoTill(ahead, get_close, 230, 100);
+        //GoTill(back, isT, 200, 100);
 
         //Send_signal();
         //Wait_For_signal();
-        GoTill(ahead, get_close, 230, 100);
+        //GoTill(ahead, get_close, 230, 100);
         //Send_signal();
         //Wait_For_signal();
-        GoTill(back, isT, 200, 100);
+        //GoTill(back, isT, 200, 100);
         TurnTill(Cross_Right_Mode, attached);
         delay(500);
         Move(ahead, 300);
