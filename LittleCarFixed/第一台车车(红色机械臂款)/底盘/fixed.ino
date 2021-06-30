@@ -65,7 +65,6 @@ void FixTill(bool (*int_Func)(void));
 //T型路口转向
 void Turn(SpeedSetting Setting);
 
-
 //状态判断函数(int_Func)区:
 bool isEnd()
 {
@@ -108,7 +107,17 @@ bool attached()
         return false;
     }
 }
-
+//检测到侧面装配体
+bool item_Watched()
+{
+    switch (GetSensor() & 0b000000001)
+    {
+    case 0:
+        return true;
+    default:
+        return false;
+    }
+}
 //尾部为空
 bool back_End()
 {
@@ -146,19 +155,22 @@ SpeedSetting Cross_Right_Mode;
 void Wait_For_signal()
 {
     String Cmd;
-    while(1){
-        if(Serial.available())
+    while (1)
+    {
+        if (Serial.available())
             //重点,从约定的'.'符号开始读取命令，滤掉杂波
-            if(Serial.read()=='.'){
+            if (Serial.read() == '.')
+            {
                 //以约定的'\'结尾，中间的就是命令
-                Cmd=Serial.readStringUntil('\\');
+                Cmd = Serial.readStringUntil('\\');
             }
-        if(Cmd=="Go.")
+        if (Cmd == "Go.")
             break;
     }
 }
 //发送信息
-void Send_signal(){
+void Send_signal()
+{
     Serial.println(".Go.\\");
 }
 
@@ -223,6 +235,10 @@ void setup()
 //主体流程
 void loop()
 {
+    //挥手开关部分
+    while(!item_Watched());
+    Move(ahead,200);
+    delay(300);
     /*
     GoTill(ahead, isEnd, 220, 100);
     delay(500);
@@ -232,16 +248,31 @@ void loop()
     delay(500);
     Move(ahead, 200);
     */
+    for (int count = 0; count < 5; count++)
+    {
+        GoTill(ahead, item_Watched, 220, 110);
+        delay(500);
+        Send_signal();
+        Wait_For_signal();
+        if(count==4)
+            break;
+        Move(ahead,220);
+        delay(500);
+    }
+    GoTill(back, isT, 220, 100);
+    TurnTill(Cross_Left_Mode, attached);
     delay(200);
     GoTill(ahead, isCross, 200, 100);
     //到达十字路口，发送信号并等待上层机械臂就位
     for (int count = 0; count < 5; count++)
     {
         delay(500);
+        if(count!=0){
         GoTill(ahead, get_close, 230, 100);
         GoTill(back, isT, 200, 100);
         Send_signal();
         Wait_For_signal();
+        }
         GoTill(ahead, get_close, 230, 100);
         Send_signal();
         Wait_For_signal();
