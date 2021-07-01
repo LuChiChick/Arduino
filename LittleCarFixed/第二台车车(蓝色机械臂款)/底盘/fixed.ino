@@ -5,8 +5,8 @@
 #define a4 50   //前4循迹
 #define a5 51   //右下
 #define a6 52   //左下
-#define ray1 42 //小车前光电
-#define ray2 43 //侧光电
+#define ray1 18 //小车前光电
+#define ray2 19 //侧光电
 #define ahead 1
 #define back 0
 #define left 1
