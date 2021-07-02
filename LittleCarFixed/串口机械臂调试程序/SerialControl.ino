@@ -50,12 +50,12 @@ void setup()
     ServoChain[3].angle = 0;
     ServoChain[4].angle = 20;
     ServoChain[5].angle = 0;
-    ServoChain[0].ThisServo.write(ServoChain[1].angle);
-    ServoChain[1].ThisServo.write(ServoChain[2].angle);
-    ServoChain[2].ThisServo.write(ServoChain[3].angle);
-    ServoChain[3].ThisServo.write(ServoChain[4].angle);
-    ServoChain[4].ThisServo.write(ServoChain[5].angle);
-    ServoChain[5].ThisServo.write(ServoChain[6].angle);
+    ServoChain[0].ThisServo.write(ServoChain[0].angle);
+    ServoChain[1].ThisServo.write(ServoChain[1].angle);
+    ServoChain[2].ThisServo.write(ServoChain[2].angle);
+    ServoChain[3].ThisServo.write(ServoChain[3].angle);
+    ServoChain[4].ThisServo.write(ServoChain[4].angle);
+    ServoChain[5].ThisServo.write(ServoChain[5].angle);
     Serial.begin(9600);
 }
 String Cmd1, Cmd2;

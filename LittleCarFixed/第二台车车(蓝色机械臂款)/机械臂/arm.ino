@@ -256,6 +256,22 @@ void setup()
     ServoChain[3].ThisServo.attach(Servo4);
     ServoChain[4].ThisServo.attach(Servo5);
     ServoChain[5].ThisServo.attach(Servo6);
+
+    //预装填
+    ServoChain[0].angle=10;
+    ServoChain[1].angle=180;
+    ServoChain[2].angle=20;
+    ServoChain[3].angle=0;
+    ServoChain[4].angle=10;
+    ServoChain[5].angle=170;
+
+    //初期读写,不然舵机内的值是未知的
+    ServoChain[0].ThisServo.write(ServoChain[0].angle);
+    ServoChain[1].ThisServo.write(ServoChain[1].angle);
+    ServoChain[2].ThisServo.write(ServoChain[2].angle);
+    ServoChain[3].ThisServo.write(ServoChain[3].angle);
+    ServoChain[4].ThisServo.write(ServoChain[4].angle);
+    ServoChain[5].ThisServo.write(ServoChain[5].angle);
     //初始舵机归位
     resetServoChain();
     Serial.begin(9600);
@@ -265,7 +281,18 @@ void setup()
 void loop()
 {
     //舵机复位
-    resetServoChain();
+    //resetServoChain();
+    angle_Setting resetSetting;
+    //这里需要对设置文件进行配置,如下
+    resetSetting.Servo0_angle = 10;
+    resetSetting.Servo1_angle = 180;
+    resetSetting.Servo2_angle = 20;
+    resetSetting.Servo3_angle = 0;
+    resetSetting.Servo4_angle = 10;
+    resetSetting.Servo5_angle = 170;
+
+    //看情况需要加入配速
+    Move(resetSetting,50);
     while(1);
     //等待信息
     //Wait_For_Signal();
