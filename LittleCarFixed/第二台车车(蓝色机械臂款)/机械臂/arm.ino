@@ -164,15 +164,15 @@ void resetServoChain()
     //机械臂复位使用配置
     angle_Setting resetSetting;
     //这里需要对设置文件进行配置,如下
-    resetSetting.Servo0_angle = 10;
-    resetSetting.Servo1_angle = 180;
-    resetSetting.Servo2_angle = 20;
+    resetSetting.Servo0_angle = 40;
+    resetSetting.Servo1_angle = 0;
+    resetSetting.Servo2_angle = 145;
     resetSetting.Servo3_angle = 0;
-    resetSetting.Servo4_angle = 10;
-    resetSetting.Servo5_angle = 170;
+    resetSetting.Servo4_angle = 0;
+    resetSetting.Servo5_angle = 80;
 
     //看情况需要加入配速
-    Move(resetSetting,50);
+    Move(resetSetting,5);
 }
 
 //抓取装配台零件并存放
@@ -195,11 +195,49 @@ void Catch_Item(uint8_t WhichOne)
 //抓取存储内零件
 void Catch_Item_From_Storage(uint8_t WhichOne)
 {
+    //初期准备角度
+    angle_Setting prepare={40,180,20,40,90,80};
+    Move(prepare,1);
     //同样，使用Move()来实现
     switch (WhichOne)
     {
     case 1:
+        
+        break;
     case 2:
+        //继承初始化角度，转移到对应存储区
+        angle_Setting Steps=prepare;
+        Steps.Servo0_angle=20;
+        Steps.Servo1_angle=150;
+        Steps.Servo3_angle=10;
+        Steps.Servo4_angle=60;
+        Steps.Servo5_angle=90;
+        Move(Steps,5);
+        delay(500);
+        //薅螺栓X3
+        for(int count=0;count<3;count++){
+            Steps.Servo1_angle=180;
+            Move(Steps,5);
+            //这个延时确保薅到位
+            delay(100);
+            Steps.Servo1_angle=150;
+        Move(Steps,5);
+        }
+        //这里之前的Steps{20,150,20,10,60,90}
+        //校正机械臂对准螺栓正中
+        Steps={20,170,20,20,70,90};
+        Move(Steps,5);
+        delay(50);
+        //抓住螺栓
+        Steps.Servo0_angle=100;
+        Move(Steps,5);
+        delay(50);
+        //拿出来
+        Steps={100,170,20,40,50,90};
+        Move(Steps,5);
+        delay(50);
+
+        break;
     case 3:
     case 4:
     default:
@@ -258,12 +296,12 @@ void setup()
     ServoChain[5].ThisServo.attach(Servo6);
 
     //预装填
-    ServoChain[0].angle=10;
-    ServoChain[1].angle=180;
-    ServoChain[2].angle=20;
+    ServoChain[0].angle=40;
+    ServoChain[1].angle=0;
+    ServoChain[2].angle=145;
     ServoChain[3].angle=0;
-    ServoChain[4].angle=10;
-    ServoChain[5].angle=170;
+    ServoChain[4].angle=0;
+    ServoChain[5].angle=45;
 
     //初期读写,不然舵机内的值是未知的
     ServoChain[0].ThisServo.write(ServoChain[0].angle);
@@ -273,16 +311,19 @@ void setup()
     ServoChain[4].ThisServo.write(ServoChain[4].angle);
     ServoChain[5].ThisServo.write(ServoChain[5].angle);
     //初始舵机归位
-    resetServoChain();
     Serial.begin(9600);
+    //复位延时
+    delay(2000);
 }
 
 //主流程
 void loop()
 {
     //舵机复位
-    //resetServoChain();
-    while(1);
+    resetServoChain();
+    delay(2000);
+    Catch_Item_From_Storage(2);
+    while(2);
     //等待信息
     //Wait_For_Signal();
     //循环抓取零件
