@@ -48,7 +48,7 @@ void setup()
     ServoChain[1].angle = 0;
     ServoChain[2].angle = 0;
     ServoChain[3].angle = 0;
-    ServoChain[4].angle = 0;
+    ServoChain[4].angle = 20;
     ServoChain[5].angle = 0;
     ServoChain[0].ThisServo.write(ServoChain[1].angle);
     ServoChain[1].ThisServo.write(ServoChain[2].angle);
@@ -72,7 +72,7 @@ void loop()
         uint8_t angle;
         sscanf(Cmd2.c_str(), "%d", &angle);
         //ServoChain[Aim].ThisServo.write(angle);
-        //ServoChain[Aim].angle = angle;
+        ServoChain[Aim].angle = angle;
         Roll_to(ServoChain[Aim],angle);
         Serial.print("[Servo#");
         Serial.print(Aim);
