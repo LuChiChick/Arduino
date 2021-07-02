@@ -164,12 +164,12 @@ void resetServoChain()
     //机械臂复位使用配置
     angle_Setting resetSetting;
     //这里需要对设置文件进行配置,如下
-    resetSetting.Servo0_angle = 0;
-    resetSetting.Servo1_angle = 90;
-    resetSetting.Servo2_angle = 90;
+    resetSetting.Servo0_angle = 10;
+    resetSetting.Servo1_angle = 180;
+    resetSetting.Servo2_angle = 20;
     resetSetting.Servo3_angle = 0;
-    resetSetting.Servo4_angle = 90;
-    resetSetting.Servo5_angle = 15;
+    resetSetting.Servo4_angle = 10;
+    resetSetting.Servo5_angle = 170;
 
     //看情况需要加入配速
     Move(resetSetting,50);
@@ -266,6 +266,7 @@ void loop()
 {
     //舵机复位
     resetServoChain();
+    while(1);
     //等待信息
     //Wait_For_Signal();
     //循环抓取零件
