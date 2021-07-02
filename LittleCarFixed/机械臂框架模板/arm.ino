@@ -264,12 +264,12 @@ void setup()
     ServoChain[5].angle=170;
 
     //初期读写,不然舵机内的值是未知的，Move会失效！！！！
-    ServoChain[0].ThisServo.write(ServoChain[1].angle);
-    ServoChain[1].ThisServo.write(ServoChain[2].angle);
-    ServoChain[2].ThisServo.write(ServoChain[3].angle);
-    ServoChain[3].ThisServo.write(ServoChain[4].angle);
-    ServoChain[4].ThisServo.write(ServoChain[5].angle);
-    ServoChain[5].ThisServo.write(ServoChain[6].angle);
+    ServoChain[0].ThisServo.write(ServoChain[0].angle);
+    ServoChain[1].ThisServo.write(ServoChain[1].angle);
+    ServoChain[2].ThisServo.write(ServoChain[2].angle);
+    ServoChain[3].ThisServo.write(ServoChain[3].angle);
+    ServoChain[4].ThisServo.write(ServoChain[4].angle);
+    ServoChain[5].ThisServo.write(ServoChain[5].angle);
     //初始舵机归位
     resetServoChain();
     Serial.begin(9600);
