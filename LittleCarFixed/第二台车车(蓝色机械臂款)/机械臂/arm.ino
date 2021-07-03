@@ -240,7 +240,7 @@ void Catch_Item_From_Storage(uint8_t WhichOne)
         Move(Steps, 5);
         delay(50);
         //抓住螺栓
-        Steps.Servo0_angle = 100;   
+        Steps.Servo0_angle = 100;
         Move(Steps, 5);
         delay(100);
         //拿出来
@@ -248,11 +248,11 @@ void Catch_Item_From_Storage(uint8_t WhichOne)
         Move(Steps, 10);
         delay(50);
         //挪动到中线
-        Steps.Servo5_angle=80;
+        Steps.Servo5_angle = 80;
         Move(Steps, 10);
         delay(50);
         //抬起
-        Steps.Servo4_angle=40;
+        Steps.Servo4_angle = 40;
         Move(Steps, 10);
         delay(50);
         break;
@@ -303,11 +303,11 @@ void Catch_Item_From_Storage(uint8_t WhichOne)
         Move(Steps, 10);
         delay(50);
         //挪动到中线
-        Steps.Servo5_angle=80;
+        Steps.Servo5_angle = 80;
         Move(Steps, 10);
         delay(50);
         //抬起
-        Steps.Servo4_angle=40;
+        Steps.Servo4_angle = 40;
         Move(Steps, 10);
         delay(50);
         break;
@@ -358,11 +358,11 @@ void Catch_Item_From_Storage(uint8_t WhichOne)
         Move(Steps, 10);
         delay(50);
         //挪动到中线
-        Steps.Servo5_angle=80;
+        Steps.Servo5_angle = 80;
         Move(Steps, 10);
         delay(50);
         //抬起
-        Steps.Servo4_angle=40;
+        Steps.Servo4_angle = 40;
         Move(Steps, 10);
         delay(50);
         break;
@@ -405,7 +405,7 @@ void Catch_Item_From_Storage(uint8_t WhichOne)
         Move(Steps, 5);
         delay(50);
         //抓住螺栓
-        Steps.Servo0_angle = 100;   
+        Steps.Servo0_angle = 100;
         Move(Steps, 5);
         delay(100);
         //拿出来
@@ -413,11 +413,11 @@ void Catch_Item_From_Storage(uint8_t WhichOne)
         Move(Steps, 10);
         delay(50);
         //挪动到中线
-        Steps.Servo5_angle=80;
+        Steps.Servo5_angle = 80;
         Move(Steps, 10);
         delay(50);
         //抬起
-        Steps.Servo4_angle=40;
+        Steps.Servo4_angle = 40;
         Move(Steps, 10);
         delay(50);
         break;
@@ -435,16 +435,21 @@ void PutItem(uint8_t WhichOne)
     switch (WhichOne)
     {
     case 1:
-    //第一个投放,特殊投放
-    break;
+        //第一个投放,特殊投放
+        break;
+    //余下普通投放
     case 2:
     case 3:
     case 4:
     case 5:
-    //准备阶段,上一条移动语句务必是Catch_Item_From_Storage
-    angle_Setting prepare={100,160,20,50,40,80};
-    Move(prepare,1);
-    delay(2000);
+        //准备阶段,上一条移动语句务必是Catch_Item_From_Storage
+        angle_Setting prepare = {100, 160, 20, 50, 40, 80};
+        Move(prepare, 1);
+        delay(2000);
+        //阶段配置结构体
+        angle_Setting Steps = {100, 110, 20, 15, 10, 80};
+        Move(Steps, 1);
+        delay(2000);
     default:
         break;
     }
@@ -514,8 +519,9 @@ void loop()
     resetServoChain();
     delay(2000);
     Catch_Item_From_Storage(2);
-    delay(4000);
+    delay(2000);
     //舵机复位
+    /*
     resetServoChain();
     delay(2000);
     Catch_Item_From_Storage(3);
@@ -530,6 +536,8 @@ void loop()
     delay(2000);
     Catch_Item_From_Storage(4);
     delay(4000);
+    */
+    PutItem(2);
     while (1)
         ;
     //等待信息
