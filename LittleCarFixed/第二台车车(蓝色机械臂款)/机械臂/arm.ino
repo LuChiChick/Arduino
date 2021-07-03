@@ -291,7 +291,7 @@ void Catch_Item_From_Storage(uint8_t WhichOne)
         }
         //这里之前的Steps{10,110,13,10,60,90}
         //校正机械臂对准螺栓正中
-        Steps = {0, 125, 20, 17, 65, 90};
+        Steps = {0, 123, 20, 17, 65, 90};
         Move(Steps, 5);
         delay(50);
         //抓住螺栓
