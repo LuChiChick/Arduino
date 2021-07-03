@@ -72,7 +72,7 @@ bool All_attached(angle_Setting angle_s, Servos Chain[6])
 }
 
 //根据舵机配置结构体移动各个舵机到对应角度，可选调速配置,不提供的话默认每组移动defdelay
-void Move(angle_Setting angle_s,unsigned long defdelay,speed_Setting* speed_s=NULL)
+void Move(angle_Setting angle_s, unsigned long defdelay, speed_Setting *speed_s = NULL)
 {
     //对各个舵机当前的状态进行操作,根据需要移动的角度判断该怎么动
     //当没达到的时候当然一直进行移动咯
@@ -90,7 +90,7 @@ void Move(angle_Setting angle_s,unsigned long defdelay,speed_Setting* speed_s=NU
             //移动
             ServoChain[0].ThisServo.write(ServoChain[0].angle);
             //依据配速结体或默认设置进行时延
-            if(speed_s==NULL)
+            if (speed_s == NULL)
                 delay(defdelay);
             else
                 delay(speed_s->Servo0_delay);
@@ -102,7 +102,7 @@ void Move(angle_Setting angle_s,unsigned long defdelay,speed_Setting* speed_s=NU
             else
                 ServoChain[1].angle++;
             ServoChain[1].ThisServo.write(ServoChain[1].angle);
-            if(speed_s==NULL)
+            if (speed_s == NULL)
                 delay(defdelay);
             else
                 delay(speed_s->Servo1_delay);
@@ -114,7 +114,7 @@ void Move(angle_Setting angle_s,unsigned long defdelay,speed_Setting* speed_s=NU
             else
                 ServoChain[2].angle++;
             ServoChain[2].ThisServo.write(ServoChain[2].angle);
-            if(speed_s==NULL)
+            if (speed_s == NULL)
                 delay(defdelay);
             else
                 delay(speed_s->Servo2_delay);
@@ -126,7 +126,7 @@ void Move(angle_Setting angle_s,unsigned long defdelay,speed_Setting* speed_s=NU
             else
                 ServoChain[3].angle++;
             ServoChain[3].ThisServo.write(ServoChain[3].angle);
-            if(speed_s==NULL)
+            if (speed_s == NULL)
                 delay(defdelay);
             else
                 delay(speed_s->Servo3_delay);
@@ -138,7 +138,7 @@ void Move(angle_Setting angle_s,unsigned long defdelay,speed_Setting* speed_s=NU
             else
                 ServoChain[4].angle++;
             ServoChain[4].ThisServo.write(ServoChain[4].angle);
-            if(speed_s==NULL)
+            if (speed_s == NULL)
                 delay(defdelay);
             else
                 delay(speed_s->Servo4_delay);
@@ -150,7 +150,7 @@ void Move(angle_Setting angle_s,unsigned long defdelay,speed_Setting* speed_s=NU
             else
                 ServoChain[5].angle++;
             ServoChain[5].ThisServo.write(ServoChain[5].angle);
-            if(speed_s==NULL)
+            if (speed_s == NULL)
                 delay(defdelay);
             else
                 delay(speed_s->Servo5_delay);
@@ -172,7 +172,7 @@ void resetServoChain()
     resetSetting.Servo5_angle = 80;
 
     //看情况需要加入配速
-    Move(resetSetting,5);
+    Move(resetSetting, 5);
 }
 
 //抓取装配台零件并存放
@@ -196,45 +196,46 @@ void Catch_Item(uint8_t WhichOne)
 void Catch_Item_From_Storage(uint8_t WhichOne)
 {
     //初期准备角度
-    angle_Setting prepare={40,180,20,40,90,80};
-    Move(prepare,1);
+    angle_Setting prepare = {40, 180, 20, 40, 90, 80};
+    Move(prepare, 1);
     //同样，使用Move()来实现
     switch (WhichOne)
     {
     case 1:
-        
+
         break;
     case 2:
         //继承初始化角度，转移到对应存储区
-        angle_Setting Steps=prepare;
-        Steps.Servo0_angle=20;
-        Steps.Servo1_angle=150;
-        Steps.Servo3_angle=10;
-        Steps.Servo4_angle=60;
-        Steps.Servo5_angle=90;
-        Move(Steps,5);
+        angle_Setting Steps = prepare;
+        Steps.Servo0_angle = 20;
+        Steps.Servo1_angle = 150;
+        Steps.Servo3_angle = 10;
+        Steps.Servo4_angle = 60;
+        Steps.Servo5_angle = 90;
+        Move(Steps, 5);
         delay(500);
         //薅螺栓X3
-        for(int count=0;count<3;count++){
-            Steps.Servo1_angle=180;
-            Move(Steps,5);
+        for (int count = 0; count < 3; count++)
+        {
+            Steps.Servo1_angle = 180;
+            Move(Steps, 5);
             //这个延时确保薅到位
             delay(100);
-            Steps.Servo1_angle=150;
-        Move(Steps,5);
+            Steps.Servo1_angle = 150;
+            Move(Steps, 5);
         }
         //这里之前的Steps{20,150,20,10,60,90}
         //校正机械臂对准螺栓正中
-        Steps={20,170,20,20,70,90};
-        Move(Steps,5);
+        Steps = {20, 170, 20, 20, 70, 90};
+        Move(Steps, 5);
         delay(50);
         //抓住螺栓
-        Steps.Servo0_angle=100;
-        Move(Steps,5);
+        Steps.Servo0_angle = 100;
+        Move(Steps, 5);
         delay(50);
         //拿出来
-        Steps={100,170,20,40,50,90};
-        Move(Steps,5);
+        Steps = {100, 170, 20, 40, 50, 90};
+        Move(Steps, 5);
         delay(50);
 
         break;
@@ -266,21 +267,24 @@ void PutItem(uint8_t WhichOne)
 void Wait_For_signal()
 {
     String Cmd;
-    while(1){
-        if(Serial.available())
+    while (1)
+    {
+        if (Serial.available())
             //重点,从约定的'.'符号开始读取命令，滤掉杂波
-            if(Serial.read()=='.'){
+            if (Serial.read() == '.')
+            {
                 //以约定的'\'结尾，中间的就是命令
-                Cmd=Serial.readStringUntil('\\');
+                Cmd = Serial.readStringUntil('\\');
                 Serial.println(Cmd);
             }
-        if(Cmd=="Go.")
+        if (Cmd == "Go.")
             break;
     }
 }
 
 //发送信息
-void Send_signal(){
+void Send_signal()
+{
     Serial.println(".Go.\\");
 }
 
@@ -296,12 +300,12 @@ void setup()
     ServoChain[5].ThisServo.attach(Servo6);
 
     //预装填
-    ServoChain[0].angle=40;
-    ServoChain[1].angle=0;
-    ServoChain[2].angle=145;
-    ServoChain[3].angle=0;
-    ServoChain[4].angle=0;
-    ServoChain[5].angle=45;
+    ServoChain[0].angle = 40;
+    ServoChain[1].angle = 0;
+    ServoChain[2].angle = 145;
+    ServoChain[3].angle = 0;
+    ServoChain[4].angle = 0;
+    ServoChain[5].angle = 45;
 
     //初期读写,不然舵机内的值是未知的
     ServoChain[0].ThisServo.write(ServoChain[0].angle);
@@ -323,7 +327,8 @@ void loop()
     resetServoChain();
     delay(2000);
     Catch_Item_From_Storage(2);
-    while(2);
+    while (2)
+        ;
     //等待信息
     //Wait_For_Signal();
     //循环抓取零件
