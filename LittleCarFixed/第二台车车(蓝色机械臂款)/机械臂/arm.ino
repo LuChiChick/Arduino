@@ -389,7 +389,7 @@ void Catch_Item_From_Storage(uint8_t WhichOne)
         }
         //这里之前的Steps{10,140,13,10,60,10}
         //校正机械臂对准螺栓正中
-        Steps = {0, 135, 20, 15, 60, 140};
+        Steps = {0, 135, 20, 15, 60, 10};
         Move(Steps, 5);
         delay(50);
         //抓住螺栓
@@ -491,17 +491,17 @@ void loop()
     //舵机复位
     resetServoChain();
     delay(2000);
-    Catch_Item_From_Storage(1);
-    delay(4000);
-    //舵机复位
-    resetServoChain();
-    delay(2000);
     Catch_Item_From_Storage(2);
     delay(4000);
     //舵机复位
     resetServoChain();
     delay(2000);
     Catch_Item_From_Storage(3);
+    delay(4000);
+    //舵机复位
+    resetServoChain();
+    delay(2000);
+    Catch_Item_From_Storage(1);
     delay(4000);
     //舵机复位
     resetServoChain();
