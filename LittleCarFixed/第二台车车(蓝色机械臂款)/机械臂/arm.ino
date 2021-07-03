@@ -196,8 +196,9 @@ void Catch_Item(uint8_t WhichOne)
 void Catch_Item_From_Storage(uint8_t WhichOne)
 {
     //初期准备角度
-    angle_Setting prepare = {40, 180, 20, 40, 90, 80};
+    angle_Setting prepare = {20, 120, 20, 40, 90, 80};
     Move(prepare, 1);
+    delay(500);
     //同样，使用Move()来实现
     switch (WhichOne)
     {
@@ -207,8 +208,8 @@ void Catch_Item_From_Storage(uint8_t WhichOne)
     case 2:
         //继承初始化角度，转移到对应存储区
         angle_Setting Steps = prepare;
-        Steps.Servo0_angle = 20;
-        Steps.Servo1_angle = 150;
+        Steps.Servo0_angle = 25;
+        Steps.Servo1_angle = 120;
         Steps.Servo3_angle = 10;
         Steps.Servo4_angle = 60;
         Steps.Servo5_angle = 90;
@@ -217,25 +218,25 @@ void Catch_Item_From_Storage(uint8_t WhichOne)
         //薅螺栓X3
         for (int count = 0; count < 3; count++)
         {
-            Steps.Servo1_angle = 180;
+            Steps.Servo1_angle = 130;
             Move(Steps, 5);
             //这个延时确保薅到位
-            delay(100);
-            Steps.Servo1_angle = 150;
+            delay(150);
+            Steps.Servo1_angle = 100;
             Move(Steps, 5);
         }
-        //这里之前的Steps{20,150,20,10,60,90}
+        //这里之前的Steps{20,110,20,10,60,90}
         //校正机械臂对准螺栓正中
-        Steps = {20, 170, 20, 20, 70, 90};
+        Steps = {0, 125, 20, 17, 65, 90};
         Move(Steps, 5);
         delay(50);
         //抓住螺栓
-        Steps.Servo0_angle = 100;
+        Steps.Servo0_angle = 120;
         Move(Steps, 5);
-        delay(50);
+        delay(100);
         //拿出来
-        Steps = {100, 170, 20, 40, 50, 90};
-        Move(Steps, 5);
+        Steps = {100, 160, 20, 40, 50, 90};
+        Move(Steps, 10);
         delay(50);
 
         break;
