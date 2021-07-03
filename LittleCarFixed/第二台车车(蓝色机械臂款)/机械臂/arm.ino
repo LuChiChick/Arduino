@@ -251,6 +251,10 @@ void Catch_Item_From_Storage(uint8_t WhichOne)
         Steps.Servo5_angle=80;
         Move(Steps, 10);
         delay(50);
+        //抬起
+        Steps.Servo4_angle=40;
+        Move(Steps, 10);
+        delay(50);
         break;
     }
     case 2:
@@ -300,6 +304,10 @@ void Catch_Item_From_Storage(uint8_t WhichOne)
         delay(50);
         //挪动到中线
         Steps.Servo5_angle=80;
+        Move(Steps, 10);
+        delay(50);
+        //抬起
+        Steps.Servo4_angle=40;
         Move(Steps, 10);
         delay(50);
         break;
@@ -353,6 +361,10 @@ void Catch_Item_From_Storage(uint8_t WhichOne)
         Steps.Servo5_angle=80;
         Move(Steps, 10);
         delay(50);
+        //抬起
+        Steps.Servo4_angle=40;
+        Move(Steps, 10);
+        delay(50);
         break;
     }
     case 4:
@@ -404,6 +416,10 @@ void Catch_Item_From_Storage(uint8_t WhichOne)
         Steps.Servo5_angle=80;
         Move(Steps, 10);
         delay(50);
+        //抬起
+        Steps.Servo4_angle=40;
+        Move(Steps, 10);
+        delay(50);
         break;
     }
     default:
@@ -419,6 +435,8 @@ void PutItem(uint8_t WhichOne)
     switch (WhichOne)
     {
     case 1:
+    //第一个投放,特殊投放
+    break;
     case 2:
     case 3:
     case 4:
