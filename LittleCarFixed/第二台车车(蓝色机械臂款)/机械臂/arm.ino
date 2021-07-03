@@ -203,8 +203,56 @@ void Catch_Item_From_Storage(uint8_t WhichOne)
     switch (WhichOne)
     {
     case 1:
-
+    {
+        //继承初始化角度，转移到对应存储区
+        angle_Setting Steps = prepare;
+        //先移动底盘对准，再进行操作
+        Steps.Servo5_angle = 140;
+        Move(Steps, 1);
+        delay(500);
+        //微调位置
+        Steps.Servo4_angle = 60;
+        Steps.Servo1_angle = 100;
+        Move(Steps, 1);
+        Steps.Servo0_angle = 5;
+        Steps.Servo3_angle = 10;
+        Move(Steps, 5);
+        delay(500);
+        //机械爪靠近
+        Steps.Servo1_angle = 130;
+        Move(Steps, 5);
+        delay(150);
+        //薅螺栓X2
+        for (int count = 0; count < 2; count++)
+        {
+            Steps.Servo1_angle = 110;
+            Steps.Servo2_angle = 23;
+            Move(Steps, 5);
+            //这个延时确保薅到位
+            delay(100);
+            Steps.Servo1_angle = 140;
+            Steps.Servo2_angle = 13;
+            Move(Steps, 5);
+        }
+        //这里之前的Steps{10,140,13,10,60,140}
+        //校正机械臂对准螺栓正中
+        Steps = {0, 130, 20, 10, 55, 140};
+        Move(Steps, 5);
+        delay(50);
+        //抓住螺栓
+        Steps.Servo0_angle = 100;   
+        Move(Steps, 5);
+        delay(100);
+        //拿出来
+        Steps = {100, 160, 20, 50, 65, 140};
+        Move(Steps, 10);
+        delay(50);
+        //挪动到中线
+        Steps.Servo5_angle=80;
+        Move(Steps, 10);
+        delay(50);
         break;
+    }
     case 2:
     {
         //继承初始化角度，转移到对应存储区
@@ -250,7 +298,10 @@ void Catch_Item_From_Storage(uint8_t WhichOne)
         Steps = {100, 160, 20, 50, 65, 90};
         Move(Steps, 10);
         delay(50);
-        //挪动
+        //挪动到中线
+        Steps.Servo5_angle=80;
+        Move(Steps, 10);
+        delay(50);
         break;
     }
     case 3:
@@ -298,7 +349,10 @@ void Catch_Item_From_Storage(uint8_t WhichOne)
         Steps = {100, 160, 20, 50, 65, 55};
         Move(Steps, 10);
         delay(50);
-        //挪动
+        //挪动到中线
+        Steps.Servo5_angle=80;
+        Move(Steps, 10);
+        delay(50);
         break;
     }
     case 4:
@@ -335,18 +389,21 @@ void Catch_Item_From_Storage(uint8_t WhichOne)
         }
         //这里之前的Steps{10,140,13,10,60,10}
         //校正机械臂对准螺栓正中
-        Steps = {0, 130, 20, 17, 65, 10};
+        Steps = {0, 130, 20, 10, 55, 10};
         Move(Steps, 5);
         delay(50);
         //抓住螺栓
-        Steps.Servo0_angle = 100;
+        Steps.Servo0_angle = 100;   
         Move(Steps, 5);
         delay(100);
         //拿出来
         Steps = {100, 160, 20, 50, 65, 10};
         Move(Steps, 10);
         delay(50);
-        //挪动
+        //挪动到中线
+        Steps.Servo5_angle=80;
+        Move(Steps, 10);
+        delay(50);
         break;
     }
     default:
@@ -431,6 +488,11 @@ void setup()
 //主流程
 void loop()
 {
+    //舵机复位
+    resetServoChain();
+    delay(2000);
+    Catch_Item_From_Storage(1);
+    delay(4000);
     //舵机复位
     resetServoChain();
     delay(2000);
