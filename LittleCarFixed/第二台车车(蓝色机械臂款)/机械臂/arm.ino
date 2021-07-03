@@ -441,6 +441,10 @@ void PutItem(uint8_t WhichOne)
     case 3:
     case 4:
     case 5:
+    //准备阶段,上一条移动语句务必是Catch_Item_From_Storage
+    angle_Setting prepare={100,160,20,50,40,80};
+    Move(prepare,1);
+    delay(2000);
     default:
         break;
     }
