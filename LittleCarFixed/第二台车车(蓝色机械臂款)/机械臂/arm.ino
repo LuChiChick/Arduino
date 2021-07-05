@@ -446,6 +446,7 @@ void PutItem(uint8_t WhichOne)
     case 4:
     case 5:
     {
+        //上一条务必务必是CatchItem()
         //阶段配置结构体
         angle_Setting Steps = {100, 100, 10, 13, 5, 85};
         Move(Steps, 1);
