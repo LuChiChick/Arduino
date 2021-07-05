@@ -262,7 +262,7 @@ void Catch_Item_From_Storage(uint8_t WhichOne)
         //继承初始化角度，转移到对应存储区
         angle_Setting Steps = prepare;
         //先移动底盘对准，再进行操作
-        Steps.Servo5_angle = 90;
+        Steps.Servo5_angle = 93;
         Move(Steps, 1);
         delay(500);
         //微调位置
@@ -289,9 +289,9 @@ void Catch_Item_From_Storage(uint8_t WhichOne)
             Steps.Servo2_angle = 13;
             Move(Steps, 5);
         }
-        //这里之前的Steps{10,110,13,10,60,90}
+        //这里之前的Steps{10,110,13,10,60,93}
         //校正机械臂对准螺栓正中
-        Steps = {0, 123, 20, 17, 65, 90};
+        Steps = {0, 123, 20, 17, 65, 93};
         Move(Steps, 5);
         delay(50);
         //抓住螺栓
@@ -299,7 +299,7 @@ void Catch_Item_From_Storage(uint8_t WhichOne)
         Move(Steps, 5);
         delay(100);
         //拿出来
-        Steps = {100, 160, 20, 50, 65, 90};
+        Steps = {100, 160, 20, 50, 65, 93};
         Move(Steps, 10);
         delay(50);
         //挪动到中线
@@ -426,6 +426,9 @@ void Catch_Item_From_Storage(uint8_t WhichOne)
         break;
     }
     //抓取完之后应该将机械臂置于刚好对准的状态
+    angle_Setting focus_On = {100, 160, 20, 50, 40, 80};
+    Move(focus_On, 1);
+    delay(1000);
 }
 
 //投放零件到装配体
@@ -442,14 +445,33 @@ void PutItem(uint8_t WhichOne)
     case 3:
     case 4:
     case 5:
-        //准备阶段,上一条移动语句务必是Catch_Item_From_Storage
-        angle_Setting prepare = {100, 160, 20, 50, 40, 80};
-        Move(prepare, 1);
-        delay(2000);
+    {
         //阶段配置结构体
-        angle_Setting Steps = {100, 110, 20, 15, 10, 80};
+        angle_Setting Steps = {100, 100, 10, 13, 5, 85};
         Move(Steps, 1);
         delay(2000);
+        //尝试投放
+        for (int countter = 0; countter < 3; countter++)
+        {
+            Steps.Servo2_angle = 17;
+            Move(Steps, 20);
+            delay(20);
+            Steps.Servo1_angle += 5;
+            Steps.Servo3_angle--;
+            Move(Steps, 10);
+            delay(20);
+            Steps.Servo2_angle = 3;
+            Move(Steps, 20);
+            delay(20);
+            Steps.Servo1_angle += 5;
+            Steps.Servo3_angle--;
+            Move(Steps, 10);
+            delay(20);
+        }
+        Steps = {100, 110, 10, 13, 5, 85};
+        Move(Steps, 1);
+        delay(1000);
+    }
     default:
         break;
     }
@@ -535,8 +557,8 @@ void loop()
     resetServoChain();
     delay(2000);
     Catch_Item_From_Storage(4);
-    delay(4000);
-    */
+    delay(1000);
+    //*/
     PutItem(2);
     while (1)
         ;
