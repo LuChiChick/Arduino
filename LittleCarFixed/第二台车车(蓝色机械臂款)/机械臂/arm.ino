@@ -426,7 +426,7 @@ void Catch_Item_From_Storage(uint8_t WhichOne)
         break;
     }
     //抓取完之后应该将机械臂置于刚好对准的状态
-    angle_Setting focus_On = {100, 160, 20, 50, 40, 80};
+    angle_Setting focus_On = {100, 100, 10, 13, 5, 85};
     Move(focus_On, 1);
     delay(1000);
 }
@@ -451,7 +451,7 @@ void PutItem(uint8_t WhichOne)
         angle_Setting Steps = {100, 100, 10, 13, 5, 85};
         Move(Steps, 1);
         delay(2000);
-        //尝试投放
+        //摸索投放口
         for (int countter = 0; countter < 3; countter++)
         {
             Steps.Servo2_angle = 17;
@@ -471,7 +471,19 @@ void PutItem(uint8_t WhichOne)
         }
         Steps = {100, 110, 10, 13, 5, 85};
         Move(Steps, 1);
-        delay(1000);
+        delay(500);
+        //推进去
+        Steps={20,80,10,20,40,85};
+        Move(Steps, 1);
+        delay(500);
+        //放开
+        Steps.Servo0_angle=0;
+        Move(Steps, 1);
+        delay(500);
+        //抬头
+        Steps.Servo1_angle=30;
+        Move(Steps, 1);
+        delay(500);
     }
     default:
         break;
