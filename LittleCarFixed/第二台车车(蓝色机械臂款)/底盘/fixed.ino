@@ -65,7 +65,6 @@ void FixTill(bool (*int_Func)(void));
 //T型路口转向
 void Turn(SpeedSetting Setting);
 
-
 //状态判断函数(int_Func)区:
 bool isEnd()
 {
@@ -146,19 +145,22 @@ SpeedSetting Cross_Right_Mode;
 void Wait_For_signal()
 {
     String Cmd;
-    while(1){
-        if(Serial.available())
+    while (1)
+    {
+        if (Serial.available())
             //重点,从约定的'.'符号开始读取命令，滤掉杂波
-            if(Serial.read()=='.'){
+            if (Serial.read() == '.')
+            {
                 //以约定的'\'结尾，中间的就是命令
-                Cmd=Serial.readStringUntil('\\');
+                Cmd = Serial.readStringUntil('\\');
             }
-        if(Cmd=="Go.")
+        if (Cmd == "Go.")
             break;
     }
 }
 //发送信息
-void Send_signal(){
+void Send_signal()
+{
     Serial.println(".Go.\\");
 }
 
@@ -224,22 +226,24 @@ void setup()
 void loop()
 {
     //抓取投放测试
-    for(int count=0;count<4;count++){
-    GoTill(ahead,isT,220,100);
-    TurnTill(Cross_Left_Mode,attached);
-    GoTill(ahead,get_close,220,100);
-    GoTill(back,isT,220,100);
-    //抓取准备
-    Send_signal();
-    Wait_For_signal();
-    GoTill(ahead,get_close,225,100);
-    //投放许可
-    Send_signal();
-    Wait_For_signal();
-    GoTill(back,isT,220,100);
-    TurnTill(Cross_Right_Mode,attached);
+    for (int count = 0; count < 4; count++)
+    {
+        GoTill(ahead, isT, 220, 100);
+        TurnTill(Cross_Left_Mode, attached);
+        GoTill(ahead, get_close, 220, 100);
+        GoTill(back, isT, 220, 100);
+        //抓取准备
+        Send_signal();
+        Wait_For_signal();
+        GoTill(ahead, get_close, 225, 100);
+        //投放许可
+        Send_signal();
+        Wait_For_signal();
+        GoTill(back, isT, 220, 100);
+        TurnTill(Cross_Right_Mode, attached);
     }
-    while(1);
+    while (1)
+        ;
     //前进到直线再返回T字路口右转
     GoTill(ahead, isEnd, 220, 100);
     delay(500);
