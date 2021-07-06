@@ -196,9 +196,13 @@ void Catch_Item(uint8_t WhichOne)
 void Catch_Item_From_Storage(uint8_t WhichOne)
 {
     //初期准备角度
-    angle_Setting prepare = {20, 120, 20, 40, 90, 80};
-    Move(prepare, 1);
-    delay(2000);
+
+    angle_Setting prepare = {0,0,20,10,90,80};
+    Move(prepare,1);
+    delay(1200);
+    prepare = {20, 120, 20, 40, 90, 80};
+    Move(prepare,1);
+    delay(1200);
     //同样，使用Move()来实现
     switch (WhichOne)
     {
@@ -550,6 +554,17 @@ void setup()
 //主流程
 void loop()
 {
+    resetServoChain();
+    Wait_For_signal();
+    Catch_Item_From_Storage(2);
+    Send_signal();
+    Wait_For_signal();
+    PutItem(2);
+    Send_signal();
+    Wait_For_signal();
+
+
+    while(1);
     //舵机复位
     resetServoChain();
     delay(2000);

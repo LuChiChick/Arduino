@@ -223,6 +223,23 @@ void setup()
 //主体流程
 void loop()
 {
+    //抓取投放测试
+    for(int count=0;count<4;count++){
+    GoTill(ahead,isT,220,100);
+    TurnTill(Cross_Left_Mode,attached);
+    GoTill(ahead,get_close,220,100);
+    GoTill(back,isT,220,100);
+    //抓取准备
+    Send_signal();
+    Wait_For_signal();
+    GoTill(ahead,get_close,240,100);
+    //投放许可
+    Send_signal();
+    Wait_For_signal();
+    GoTill(back,isT,220,100);
+    TurnTill(Cross_Right_Mode,attached);
+    }
+    while(1);
     //前进到直线再返回T字路口右转
     GoTill(ahead, isEnd, 220, 100);
     delay(500);
