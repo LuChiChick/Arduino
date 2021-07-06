@@ -232,7 +232,7 @@ void loop()
     //抓取准备
     Send_signal();
     Wait_For_signal();
-    GoTill(ahead,get_close,240,100);
+    GoTill(ahead,get_close,225,100);
     //投放许可
     Send_signal();
     Wait_For_signal();
