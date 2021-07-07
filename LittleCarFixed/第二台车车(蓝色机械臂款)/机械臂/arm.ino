@@ -197,16 +197,16 @@ void Catch_Item_From_Storage(uint8_t WhichOne)
 {
     //初期准备角度
 
-    angle_Setting prepare = {0,0,20,10,90,80};
-    Move(prepare,1);
+    angle_Setting prepare = {0, 0, 20, 10, 90, 80};
+    Move(prepare, 1);
     delay(1200);
     prepare = {20, 120, 20, 40, 90, 80};
-    Move(prepare,1);
-    delay(1200);
+    Move(prepare, 1);
+    delay(500);
     //同样，使用Move()来实现
     switch (WhichOne)
     {
-    case 1:
+    case 3: //左
     {
         //继承初始化角度，转移到对应存储区
         angle_Setting Steps = prepare;
@@ -261,7 +261,7 @@ void Catch_Item_From_Storage(uint8_t WhichOne)
         delay(50);
         break;
     }
-    case 2:
+    case 1: //左上
     {
         //继承初始化角度，转移到对应存储区
         angle_Setting Steps = prepare;
@@ -316,7 +316,7 @@ void Catch_Item_From_Storage(uint8_t WhichOne)
         delay(50);
         break;
     }
-    case 3:
+    case 2: //右上
     {
         //继承初始化角度，转移到对应存储区
         angle_Setting Steps = prepare;
@@ -371,7 +371,7 @@ void Catch_Item_From_Storage(uint8_t WhichOne)
         delay(50);
         break;
     }
-    case 4:
+    case 4: //右
     {
         //继承初始化角度，转移到对应存储区
         angle_Setting Steps = prepare;
@@ -477,15 +477,15 @@ void PutItem(uint8_t WhichOne)
         Move(Steps, 1);
         delay(500);
         //推进去
-        Steps={20,80,10,20,40,85};
+        Steps = {20, 80, 10, 20, 40, 85};
         Move(Steps, 1);
         delay(500);
         //放开
-        Steps.Servo0_angle=0;
+        Steps.Servo0_angle = 0;
         Move(Steps, 1);
         delay(500);
         //抬头
-        Steps.Servo1_angle=30;
+        Steps.Servo1_angle = 30;
         Move(Steps, 1);
         delay(500);
     }
@@ -554,17 +554,19 @@ void setup()
 //主流程
 void loop()
 {
-    resetServoChain();
-    Wait_For_signal();
-    Catch_Item_From_Storage(2);
-    Send_signal();
-    Wait_For_signal();
-    PutItem(2);
-    Send_signal();
-    Wait_For_signal();
+    for (int count = 1; count < 5; count++)
+    {
+        resetServoChain();
+        Wait_For_signal();
+        Catch_Item_From_Storage(count);
+        Send_signal();
+        Wait_For_signal();
+        PutItem(count+1);
+        Send_signal();
+    }
 
-
-    while(1);
+    while (1)
+        ;
     //舵机复位
     resetServoChain();
     delay(2000);
