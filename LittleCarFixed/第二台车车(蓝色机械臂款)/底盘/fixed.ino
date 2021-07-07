@@ -228,8 +228,12 @@ void loop()
     //抓取投放测试
     for (int count = 0; count < 4; count++)
     {
+        Move(ahead,200)
+        delay(200);
         GoTill(ahead, isT, 220, 100);
+        delay(500);
         TurnTill(Cross_Left_Mode, attached);
+        delay(200);
         GoTill(ahead, get_close, 220, 100);
         GoTill(back, isT, 220, 100);
         //抓取准备
