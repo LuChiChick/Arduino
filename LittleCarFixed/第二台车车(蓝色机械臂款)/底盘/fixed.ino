@@ -132,6 +132,18 @@ bool get_close()
     }
 }
 
+//检测到侧面装配体
+bool item_Watched()
+{
+    switch (GetSensor() & 0b000000001)
+    {
+    case 0:
+        return true;
+    default:
+        return false;
+    }
+}
+
 //全局配速文件
 
 //五边形角落
@@ -225,6 +237,12 @@ void setup()
 //主体流程
 void loop()
 {
+    //装配台测试
+    while(!item_Watched());
+    Move(ahead,200);
+    delay(100);
+    GoTill(ahead,item_Watched,220,100);
+    while(1);
     //抓取投放测试
     for (int count = 0; count < 4; count++)
     {

@@ -7,6 +7,8 @@
 #define Servo4 A0
 #define Servo5 A1
 #define Servo6 7
+#define READY_TO_CATCH_FROM_STORAGE 1
+#define READY_TO_CATCH_ITEM 2
 
 //舵机信息体
 struct Servos
