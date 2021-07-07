@@ -166,13 +166,21 @@ void resetServoChain(int How_to_reset)
     switch (How_to_reset)
     {
     case READY_TO_CATCH_FROM_STORAGE:
+    {
         //机械臂复位使用配置
         angle_Setting resetSetting = {0, 0, 145, 0, 0, 80};
         //看情况需要加入配速
         Move(resetSetting, 5);
         break;
+    }
     case READY_TO_CATCH_ITEM:
+    {
+        //机械臂复位使用配置
+        angle_Setting resetSetting = {0, 60, 145, 20, 45, 20};
+        //看情况需要加入配速
+        Move(resetSetting, 5);
         break;
+    }
     default:
         break;
     }
@@ -182,10 +190,51 @@ void resetServoChain(int How_to_reset)
 void Catch_Item(uint8_t WhichOne)
 {
     //各种动作用Move()来实现,这个部分比较头疼
+    angle_Setting to_catch = {0, 55, 145, 60, 100, 20};
+    Move(to_catch, 2);
+    delay(300);
+    to_catch = {0, 55, 145, 55, 105, 20};
+    Move(to_catch, 1);
+    delay(300);
+    to_catch.Servo0_angle = 80;
+    Move(to_catch, 1);
+    delay(300);
+    to_catch = {80, 50, 145, 10, 40, 20};
+    Move(to_catch, 1);
+    delay(300);
+    to_catch.Servo2_angle = 20;
+    Move(to_catch, 1);
+    delay(300);
     switch (WhichOne)
     {
     case 1:
+    {
+        angle_Setting Steps = {80, 92, 20, 20, 30, 10};
+        Move(Steps, 1);
+        delay(1500);
+        Steps.Servo0_angle=0;
+        Move(Steps, 1);
+        delay(300);
+        break;
+    }
     case 2:
+    {
+        angle_Setting Steps = {80, 92, 20, 20, 30, 10};
+        Move(Steps, 1);
+        delay(1200);
+        Steps.Servo3_angle=80;
+        Steps.Servo4_angle=70;
+        Steps.Servo5_angle=145;
+        Move(Steps, 1);
+        delay(1000);
+        Steps = {80, 90, 20, 20, 25, 130};
+        Move(Steps, 1);
+        delay(2000);
+        Steps.Servo0_angle=0;
+        Move(Steps, 1);
+        delay(300);
+        break;
+    }
     case 3:
     case 4:
     case 5:
@@ -557,6 +606,15 @@ void setup()
 //主流程
 void loop()
 {
+    
+    //抓取测试
+    delay(500);
+    resetServoChain(READY_TO_CATCH_ITEM);
+    Catch_Item(2);
+    while (1)
+        ;
+
+    //投放4个
     for (int count = 1; count < 5; count++)
     {
         resetServoChain(READY_TO_CATCH_FROM_STORAGE);

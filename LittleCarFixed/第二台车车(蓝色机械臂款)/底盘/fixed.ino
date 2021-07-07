@@ -237,21 +237,29 @@ void setup()
 //主体流程
 void loop()
 {
+
     //装配台测试
     while(!item_Watched());
     Move(ahead,200);
     delay(100);
-    GoTill(ahead,item_Watched,220,100);
-    while(1);
+    for(int count=0;count<2;count++){
+    //前进到直线再返回T字路口右转
+    GoTill(ahead, item_Watched, 220, 100);
+    Send_signal();
+    Wait_For_signal();
+    }
+    //
+    GoTill(ahead, isT, 220, 100);
+    delay(500);
+    TurnTill(Cross_Left_Mode, attached);
+    delay(500);
+    Move(ahead, 200);
+    delay(200);
+    GoTill(ahead, isCross, 200, 100);
+    //到达十字路口，发送信号并等待上层机械臂就位
     //抓取投放测试
-    for (int count = 0; count < 4; count++)
+    for (int count = 0; count < 2; count++)
     {
-        Move(ahead,200);
-        delay(200);
-        GoTill(ahead, isT, 220, 100);
-        delay(500);
-        TurnTill(Cross_Left_Mode, attached);
-        delay(200);
         GoTill(ahead, get_close, 220, 100);
         GoTill(back, isT, 220, 100);
         //抓取准备
@@ -263,21 +271,15 @@ void loop()
         Wait_For_signal();
         GoTill(back, isT, 220, 100);
         TurnTill(Cross_Right_Mode, attached);
+        Move(ahead,200);
+        delay(200);
+        GoTill(ahead, isT, 220, 100);
+        delay(500);
+        TurnTill(Cross_Left_Mode, attached);
+        delay(200);
     }
     while (1)
         ;
-    //前进到直线再返回T字路口右转
-    GoTill(ahead, isEnd, 220, 100);
-    delay(500);
-    GoTill(back, isT, 220, 100);
-    delay(500);
-    TurnTill(Cross_Left_Mode, attached);
-    delay(500);
-    Move(ahead, 200);
-
-    delay(200);
-    GoTill(ahead, isCross, 200, 100);
-    //到达十字路口，发送信号并等待上层机械臂就位
     for (int count = 0; count < 5; count++)
     {
         //这里进出是为了保证接下来小车对准装配孔
