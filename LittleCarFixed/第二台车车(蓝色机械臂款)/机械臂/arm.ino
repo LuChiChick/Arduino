@@ -609,20 +609,22 @@ void loop()
     
     //抓取测试
     delay(500);
-    resetServoChain(READY_TO_CATCH_ITEM);
-    Catch_Item(2);
-    while (1)
-        ;
-
+    for(int count=1;count<3;count++){
+        resetServoChain(READY_TO_CATCH_ITEM);
+        Wait_For_signal();
+        Catch_Item(count);
+        resetServoChain(READY_TO_CATCH_ITEM);
+        Send_signal();
+    }
     //投放4个
-    for (int count = 1; count < 5; count++)
+    for (int count = 3; count < 5; count++)
     {
         resetServoChain(READY_TO_CATCH_FROM_STORAGE);
         Wait_For_signal();
         Catch_Item_From_Storage(count);
         Send_signal();
         Wait_For_signal();
-        PutItem(count + 1);
+        PutItem(count);
         Send_signal();
     }
 
