@@ -202,37 +202,80 @@ void Catch_Item(uint8_t WhichOne)
     to_catch = {80, 50, 145, 10, 40, 20};
     Move(to_catch, 1);
     delay(300);
-    to_catch.Servo2_angle = 20;
+    to_catch={80,60,20,90,70,20};
     Move(to_catch, 1);
-    delay(300);
+    delay(1200);
     switch (WhichOne)
     {
     case 1:
     {
-        angle_Setting Steps = {80, 92, 20, 20, 30, 10};
+        angle_Setting Steps = {80, 95, 10, 25, 30, 30};
         Move(Steps, 1);
         delay(1500);
+        //磕碰
+        Steps.Servo1_angle=160;
+        Move(Steps, 1);
+        delay(500);
+        //移动到目标口
+        Steps.Servo1_angle=140;
+        Move(Steps, 1);
+        delay(300);
+        Steps.Servo1_angle=130;
+        Steps.Servo3_angle=10;
+        Move(Steps, 1);
+        delay(300);
+        //怼进去
+        Steps.Servo1_angle=150;
+        Steps.Servo3_angle=0;
+        Move(Steps, 1);
+        delay(300);
+        //挪出来
         Steps.Servo0_angle=0;
         Move(Steps, 1);
         delay(300);
+        //复位
+        resetServoChain(READY_TO_CATCH_ITEM);
         break;
     }
     case 2:
     {
-        angle_Setting Steps = {80, 92, 20, 20, 30, 10};
-        Move(Steps, 1);
-        delay(1200);
-        Steps.Servo3_angle=80;
-        Steps.Servo4_angle=70;
-        Steps.Servo5_angle=145;
+        //挪动底盘
+        angle_Setting Steps = to_catch;
+        Steps.Servo5_angle = 155;
         Move(Steps, 1);
         delay(1000);
-        Steps = {80, 90, 20, 20, 25, 130};
+        Steps = {80, 95, 10, 25, 30, 155};
         Move(Steps, 1);
-        delay(2000);
+        delay(1500);
+        //磕碰
+        Steps.Servo1_angle=160;
+        Move(Steps, 1);
+        delay(500);
+        //移动到目标口
+        Steps.Servo1_angle=140;
+        Move(Steps, 1);
+        delay(300);
+        Steps.Servo1_angle=130;
+        Steps.Servo3_angle=10;
+        Move(Steps, 1);
+        delay(300);
+        //怼进去
+        Steps.Servo1_angle=150;
+        Steps.Servo3_angle=0;
+        Move(Steps, 1);
+        delay(300);
+        //挪出来
         Steps.Servo0_angle=0;
         Move(Steps, 1);
         delay(300);
+        //复位
+        Steps={80,60,145,40,70,155};
+        Move(Steps, 1);
+        delay(300);
+        Steps.Servo5_angle=20;
+        Move(Steps, 1);
+        delay(1000);
+        resetServoChain(READY_TO_CATCH_ITEM);
         break;
     }
     case 3:
@@ -504,7 +547,7 @@ void PutItem(uint8_t WhichOne)
     {
         //上一条务必务必是CatchItem()
         //阶段配置结构体
-        angle_Setting Steps = {100, 100, 10, 13, 5, 85};
+        angle_Setting Steps = {100, 97, 10, 13, 5, 85};
         Move(Steps, 1);
         delay(2000);
         //摸索投放口
@@ -529,12 +572,12 @@ void PutItem(uint8_t WhichOne)
         Move(Steps, 1);
         delay(500);
         //推进去
-        Steps = {20, 80, 20, 22, 45, 85};
+        Steps = {100, 80, 20, 22, 45, 85};
         Move(Steps, 1);
         delay(500);
         //放开
         Steps.Servo0_angle = 0;
-        Move(Steps, 1);
+        Move(Steps, 0);
         delay(500);
         //抬头
         Steps.Servo1_angle = 30;
@@ -627,7 +670,7 @@ void loop()
         PutItem(count);
         Send_signal();
     }
-
+    delay(2000);
     while (1)
         ;
     //舵机复位
