@@ -161,20 +161,21 @@ void Move(angle_Setting angle_s, unsigned long defdelay, speed_Setting *speed_s 
 }
 
 //机械臂复位
-void resetServoChain()
+void resetServoChain(int How_to_reset)
 {
-    //机械臂复位使用配置
-    angle_Setting resetSetting;
-    //这里需要对设置文件进行配置,如下
-    resetSetting.Servo0_angle = 0;
-    resetSetting.Servo1_angle = 0;
-    resetSetting.Servo2_angle = 145;
-    resetSetting.Servo3_angle = 0;
-    resetSetting.Servo4_angle = 0;
-    resetSetting.Servo5_angle = 80;
-
-    //看情况需要加入配速
-    Move(resetSetting, 5);
+    switch (How_to_reset)
+    {
+    case READY_TO_CATCH_FROM_STORAGE:
+        //机械臂复位使用配置
+        angle_Setting resetSetting = {0, 0, 145, 0, 0, 80};
+        //看情况需要加入配速
+        Move(resetSetting, 5);
+        break;
+    case READY_TO_CATCH_ITEM:
+        break;
+    default:
+        break;
+    }
 }
 
 //抓取装配台零件并存放
@@ -558,19 +559,19 @@ void loop()
 {
     for (int count = 1; count < 5; count++)
     {
-        resetServoChain();
+        resetServoChain(READY_TO_CATCH_FROM_STORAGE);
         Wait_For_signal();
         Catch_Item_From_Storage(count);
         Send_signal();
         Wait_For_signal();
-        PutItem(count+1);
+        PutItem(count + 1);
         Send_signal();
     }
 
     while (1)
         ;
     //舵机复位
-    resetServoChain();
+    resetServoChain(READY_TO_CATCH_FROM_STORAGE);
     delay(2000);
     Catch_Item_From_Storage(2);
     delay(2000);
