@@ -477,7 +477,7 @@ void PutItem(uint8_t WhichOne)
         Move(Steps, 1);
         delay(500);
         //推进去
-        Steps = {20, 80, 10, 20, 40, 85};
+        Steps = {20, 80, 20, 22, 45, 85};
         Move(Steps, 1);
         delay(500);
         //放开
