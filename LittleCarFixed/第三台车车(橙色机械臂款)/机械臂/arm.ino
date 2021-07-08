@@ -7,6 +7,8 @@
 #define Servo4 A0
 #define Servo5 A1
 #define Servo6 7
+#define READY_TO_CATCH_FROM_STORAGE 1
+#define READY_TO_CATCH_ITEM 2
 
 //舵机信息体
 struct Servos
@@ -159,20 +161,29 @@ void Move(angle_Setting angle_s,unsigned long defdelay,speed_Setting* speed_s=NU
 }
 
 //机械臂复位
-void resetServoChain()
+void resetServoChain(int How_to_reset)
 {
-    //机械臂复位使用配置
-    angle_Setting resetSetting;
-    //这里需要对设置文件进行配置,如下
-    resetSetting.Servo0_angle = 0;
-    resetSetting.Servo1_angle = 90;
-    resetSetting.Servo2_angle = 90;
-    resetSetting.Servo3_angle = 0;
-    resetSetting.Servo4_angle = 90;
-    resetSetting.Servo5_angle = 15;
-
-    //看情况需要加入配速
-    Move(resetSetting,50);
+    switch (How_to_reset)
+    {
+    case READY_TO_CATCH_FROM_STORAGE:
+    {
+        //机械臂复位使用配置
+        angle_Setting resetSetting = {0, 0, 145, 0, 0, 80};
+        //看情况需要加入配速
+        Move(resetSetting, 5);
+        break;
+    }
+    case READY_TO_CATCH_ITEM:
+    {
+        //机械臂复位使用配置
+        angle_Setting resetSetting = {0, 60, 145, 20, 45, 20};
+        //看情况需要加入配速
+        Move(resetSetting, 5);
+        break;
+    }
+    default:
+        break;
+    }
 }
 
 //抓取装配台零件并存放
