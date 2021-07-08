@@ -245,6 +245,8 @@ void loop()
     for(int count=0;count<4;count++){
     //前进到直线再返回T字路口右转
     GoTill(ahead, item_Watched, 220, 100);
+    //等待稳定
+    delay(500);
     Send_signal();
     Wait_For_signal();
     }
