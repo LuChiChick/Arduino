@@ -191,9 +191,9 @@ void Catch_Item(uint8_t WhichOne)
 {
     //各种动作用Move()来实现,这个部分比较头疼
     angle_Setting to_catch = {0, 55, 145, 60, 100, 20};
-    Move(to_catch, 2);
+    Move(to_catch, 1);
     delay(300);
-    to_catch = {0, 55, 145, 55, 105, 20};
+    to_catch = {0, 55, 145, 50, 105, 20};
     Move(to_catch, 1);
     delay(300);
     to_catch.Servo0_angle = 80;
@@ -207,44 +207,110 @@ void Catch_Item(uint8_t WhichOne)
     delay(1200);
     switch (WhichOne)
     {
-    case 1:
+    case 1://右
     {
-        angle_Setting Steps = {80, 95, 10, 25, 30, 30};
-        Move(Steps, 1);
+        angle_Setting Steps = {80, 95, 10, 25, 32, 30};
+        Move(Steps, 2);
         delay(1500);
         //磕碰
         Steps.Servo1_angle=160;
-        Move(Steps, 1);
+        Move(Steps, 2);
         delay(500);
         //移动到目标口
         Steps.Servo1_angle=140;
-        Move(Steps, 1);
+        Move(Steps, 2);
         delay(300);
         Steps.Servo1_angle=130;
         Steps.Servo3_angle=10;
-        Move(Steps, 1);
+        Move(Steps, 2);
         delay(300);
         //怼进去
         Steps.Servo1_angle=150;
         Steps.Servo3_angle=0;
-        Move(Steps, 1);
+        Move(Steps, 2);
         delay(300);
         //挪出来
         Steps.Servo0_angle=0;
-        Move(Steps, 1);
+        Move(Steps, 2);
         delay(300);
         //复位
         resetServoChain(READY_TO_CATCH_ITEM);
         break;
     }
-    case 2:
+    case 2://左
     {
         //挪动底盘
         angle_Setting Steps = to_catch;
         Steps.Servo5_angle = 155;
-        Move(Steps, 1);
+        Move(Steps, 2);
         delay(1000);
-        Steps = {80, 95, 10, 25, 30, 155};
+        Steps = {80, 95, 10, 25, 32, 155};
+        Move(Steps, 2);
+        delay(1500);
+        //磕碰
+        Steps.Servo1_angle=160;
+        Move(Steps, 2);
+        delay(500);
+        //移动到目标口
+        Steps.Servo1_angle=140;
+        Move(Steps, 2);
+        delay(300);
+        Steps.Servo1_angle=130;
+        Steps.Servo3_angle=10;
+        Move(Steps, 2);
+        delay(300);
+        //怼进去
+        Steps.Servo1_angle=150;
+        Steps.Servo3_angle=0;
+        Move(Steps, 2);
+        delay(300);
+        //挪出来
+        Steps.Servo0_angle=0;
+        Move(Steps, 2);
+        delay(300);
+        //复位
+        Steps={80,60,145,40,70,155};
+        Move(Steps, 2);
+        delay(300);
+        Steps.Servo5_angle=20;
+        Move(Steps, 2);
+        delay(1000);
+        resetServoChain(READY_TO_CATCH_ITEM);
+        break;
+    }
+    case 3://右上
+    {
+        angle_Setting Steps = {80, 95, 10, 25, 32, 65};
+        Move(Steps, 2);
+        delay(1500);
+        //磕碰
+        Steps.Servo1_angle=160;
+        Move(Steps, 2);
+        delay(500);
+        //移动到目标口
+        Steps.Servo1_angle=140;
+        Move(Steps, 2);
+        delay(300);
+        Steps.Servo1_angle=130;
+        Steps.Servo3_angle=10;
+        Move(Steps, 2);
+        delay(300);
+        //怼进去
+        Steps.Servo1_angle=150;
+        Steps.Servo3_angle=0;
+        Move(Steps, 2);
+        delay(300);
+        //挪出来
+        Steps.Servo0_angle=0;
+        Move(Steps, 2);
+        delay(300);
+        //复位
+        resetServoChain(READY_TO_CATCH_ITEM);
+        break;
+    }
+    case 4://左上
+    {
+        angle_Setting Steps = {80, 95, 10, 25, 32, 100};
         Move(Steps, 1);
         delay(1500);
         //磕碰
@@ -253,8 +319,9 @@ void Catch_Item(uint8_t WhichOne)
         delay(500);
         //移动到目标口
         Steps.Servo1_angle=140;
+        Steps.Servo2_angle=18;
         Move(Steps, 1);
-        delay(300);
+        delay(500);
         Steps.Servo1_angle=130;
         Steps.Servo3_angle=10;
         Move(Steps, 1);
@@ -269,17 +336,9 @@ void Catch_Item(uint8_t WhichOne)
         Move(Steps, 1);
         delay(300);
         //复位
-        Steps={80,60,145,40,70,155};
-        Move(Steps, 1);
-        delay(300);
-        Steps.Servo5_angle=20;
-        Move(Steps, 1);
-        delay(1000);
         resetServoChain(READY_TO_CATCH_ITEM);
         break;
     }
-    case 3:
-    case 4:
     case 5:
     default:
         break;
@@ -547,22 +606,21 @@ void PutItem(uint8_t WhichOne)
     {
         //上一条务必务必是CatchItem()
         //阶段配置结构体
-        angle_Setting Steps = {100, 97, 10, 13, 5, 85};
+        angle_Setting Steps = {100, 97, 15, 13, 5, 85};
         Move(Steps, 1);
         delay(2000);
         //摸索投放口
-        for (int countter = 0; countter < 3; countter++)
+        for (int countter = 0; countter < 5; countter++)
         {
             Steps.Servo2_angle = 17;
             Move(Steps, 20);
-            delay(20);
-            Steps.Servo1_angle += 5;
-            Steps.Servo3_angle--;
+            delay(30);
+            //Steps.Servo3_angle--;
             Move(Steps, 10);
-            delay(20);
+            delay(30);
             Steps.Servo2_angle = 3;
             Move(Steps, 20);
-            delay(20);
+            delay(30);
             Steps.Servo1_angle += 5;
             Steps.Servo3_angle--;
             Move(Steps, 10);
@@ -570,19 +628,19 @@ void PutItem(uint8_t WhichOne)
         }
         Steps = {100, 110, 10, 13, 5, 85};
         Move(Steps, 1);
-        delay(500);
+        delay(800);
         //推进去
         Steps = {100, 80, 20, 22, 45, 85};
         Move(Steps, 1);
-        delay(500);
+        delay(800);
         //放开
         Steps.Servo0_angle = 0;
         Move(Steps, 0);
-        delay(500);
+        delay(800);
         //抬头
         Steps.Servo1_angle = 30;
         Move(Steps, 1);
-        delay(500);
+        delay(800);
     }
     default:
         break;
@@ -652,7 +710,7 @@ void loop()
     
     //抓取测试
     delay(500);
-    for(int count=1;count<3;count++){
+    for(int count=1;count<5;count++){
         resetServoChain(READY_TO_CATCH_ITEM);
         Wait_For_signal();
         Catch_Item(count);
@@ -660,14 +718,14 @@ void loop()
         Send_signal();
     }
     //投放4个
-    for (int count = 3; count < 5; count++)
+    for (int count = 1; count < 5; count++)
     {
         resetServoChain(READY_TO_CATCH_FROM_STORAGE);
         Wait_For_signal();
         Catch_Item_From_Storage(count);
         Send_signal();
         Wait_For_signal();
-        PutItem(count);
+        PutItem(count+1);
         Send_signal();
     }
     delay(2000);
