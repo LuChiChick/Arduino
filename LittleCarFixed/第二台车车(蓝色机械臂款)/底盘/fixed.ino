@@ -240,10 +240,16 @@ void loop()
 
     //装配台测试
     while(!item_Watched());
+    //发送上层准备信号
+    Send_signal();
+    Wait_For_signal();
+    //等待上层准备就绪
     Move(ahead,200);
     delay(100);
-    for(int count=0;count<5;count++){
+    for(int count=0;count<4;count++){
     //前进到直线再返回T字路口右转
+    Move(ahead,220);
+    delay(100);
     GoTill(ahead, item_Watched, 220, 100);
     //等待稳定
     delay(500);
@@ -260,12 +266,13 @@ void loop()
     GoTill(ahead, isCross, 200, 100);
     //到达十字路口，发送信号并等待上层机械臂就位
     //抓取投放测试
-    for (int count = 0; count < 5; count++)
+    for (int count = 0; count < 4; count++)
     {
         //处理第一个
-        if(count!=0)
+        if(count!=0){
             GoTill(ahead, get_close, 200, 100);
-        GoTill(back, isT, 220, 100);
+            GoTill(back, isT, 220, 100);
+        }
         //抓取准备
         Send_signal();
         Wait_For_signal();

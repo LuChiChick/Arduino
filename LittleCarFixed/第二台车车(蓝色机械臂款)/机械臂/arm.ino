@@ -375,6 +375,7 @@ void Catch_Item_From_Storage(uint8_t WhichOne)
     {
     case 1: //手上的
     {
+        delay(100);
         break;
     }
     case 4: //左
@@ -619,6 +620,7 @@ void PutItem(uint8_t WhichOne)
     { //第一个投放,特殊投放
         angle_Setting Steps = Get_Angle_Setting_FromChain(ServoChain);
         Steps.Servo0_angle=0;
+        delay(200);
         break;
     }
     //余下普通投放
@@ -731,22 +733,28 @@ void setup()
 //主流程
 void loop()
 {
-
+    //等待开始
+    Wait_For_signal();
+    resetServoChain(READY_TO_CATCH_ITEM);
+    delay(1000);
+    //开始信号
+    Send_signal();
     //抓取测试
-    delay(500);
-    for (int count = 1; count < 6; count++)
+    for (int count = 1; count < 5; count++)
     {
-        resetServoChain(READY_TO_CATCH_ITEM);
         Wait_For_signal();
         Catch_Item(count);
-        resetServoChain(READY_TO_CATCH_ITEM);
+        if(count!=5)
+            resetServoChain(READY_TO_CATCH_ITEM);
+        delay(200);
         Send_signal();
     }
-    //投放5个
-    for (int count = 1; count < 6; count++)
+    //投放4个
+    for (int count = 2; count < 5; count++)
     {
         delay(500);
-        resetServoChain(READY_TO_CATCH_FROM_STORAGE);
+        if(count!=1)
+            resetServoChain(READY_TO_CATCH_FROM_STORAGE);
         Wait_For_signal();
         Catch_Item_From_Storage(count);
         Send_signal();
