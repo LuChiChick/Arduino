@@ -339,7 +339,20 @@ void Catch_Item(uint8_t WhichOne)
         resetServoChain(READY_TO_CATCH_ITEM);
         break;
     }
-    case 5:
+    case 5: //捏手里
+    {
+        angle_Setting Steps = {80, 95, 10, 25, 32, 80};
+        Move(Steps, 2);
+        delay(1500);
+        //磕碰
+        Steps.Servo1_angle = 160;
+        Move(Steps, 2);
+        delay(500);
+        //对准
+        Steps = {80, 0, 20, 5, 40, 80};
+        Move(Steps, 2);
+        delay(500);
+    }
     default:
         break;
     }
@@ -360,7 +373,11 @@ void Catch_Item_From_Storage(uint8_t WhichOne)
     //同样，使用Move()来实现
     switch (WhichOne)
     {
-    case 3: //左
+    case 1: //手上的
+    {
+        break;
+    }
+    case 4: //左
     {
         //继承初始化角度，转移到对应存储区
         angle_Setting Steps = prepare;
@@ -415,7 +432,7 @@ void Catch_Item_From_Storage(uint8_t WhichOne)
         delay(50);
         break;
     }
-    case 1: //左上
+    case 2: //左上
     {
         //继承初始化角度，转移到对应存储区
         angle_Setting Steps = prepare;
@@ -470,7 +487,7 @@ void Catch_Item_From_Storage(uint8_t WhichOne)
         delay(50);
         break;
     }
-    case 2: //右上
+    case 3: //右上
     {
         //继承初始化角度，转移到对应存储区
         angle_Setting Steps = prepare;
@@ -525,7 +542,7 @@ void Catch_Item_From_Storage(uint8_t WhichOne)
         delay(50);
         break;
     }
-    case 4: //右
+    case 5: //右
     {
         //继承初始化角度，转移到对应存储区
         angle_Setting Steps = prepare;
@@ -584,9 +601,12 @@ void Catch_Item_From_Storage(uint8_t WhichOne)
         break;
     }
     //抓取完之后应该将机械臂置于刚好对准的状态
-    angle_Setting focus_On = {100, 100, 10, 13, 5, 85};
-    Move(focus_On, 1);
-    delay(1000);
+    if (WhichOne != 1)
+    {
+        angle_Setting focus_On = {100, 110, 10, 18, 10, 85};
+        Move(focus_On, 1);
+        delay(1000);
+    }
 }
 
 //投放零件到装配体
@@ -596,8 +616,11 @@ void PutItem(uint8_t WhichOne)
     switch (WhichOne)
     {
     case 1:
-        //第一个投放,特殊投放
+    { //第一个投放,特殊投放
+        angle_Setting Steps = Get_Angle_Setting_FromChain(ServoChain);
+        Steps.Servo0_angle=0;
         break;
+    }
     //余下普通投放
     case 2:
     case 3:
@@ -606,32 +629,32 @@ void PutItem(uint8_t WhichOne)
     {
         //上一条务必务必是CatchItem()
         //阶段配置结构体
-        angle_Setting Steps = {100, 100, 10, 13, 5, 85};
+        angle_Setting Steps = {100, 110, 10, 18, 10, 85};
         Move(Steps, 1);
         delay(2000);
         //摸索投放口
         for (int countter = 0; countter < 3; countter++)
         {
-            Steps.Servo2_angle = 17;
+            Steps.Servo2_angle = 20;
             Move(Steps, 20);
             delay(20);
-            Steps.Servo1_angle += 5;
+            Steps.Servo1_angle += 2;
             Steps.Servo3_angle--;
             Move(Steps, 10);
             delay(20);
-            Steps.Servo2_angle = 3;
+            Steps.Servo2_angle = 10;
             Move(Steps, 20);
             delay(20);
-            Steps.Servo1_angle += 5;
+            Steps.Servo1_angle += 2;
             Steps.Servo3_angle--;
             Move(Steps, 10);
             delay(20);
         }
-        Steps = {100, 110, 10, 13, 5, 85};
+        Steps = {100, 120, 7, 18, 10, 80};
         Move(Steps, 1);
         delay(500);
         //推进去
-        Steps = {20, 80, 20, 22, 45, 85};
+        Steps = {80, 90, 10, 10, 30, 80};
         Move(Steps, 1);
         delay(500);
         //放开
@@ -711,7 +734,7 @@ void loop()
 
     //抓取测试
     delay(500);
-    for (int count = 1; count < 5; count++)
+    for (int count = 1; count < 6; count++)
     {
         resetServoChain(READY_TO_CATCH_ITEM);
         Wait_For_signal();
@@ -719,15 +742,16 @@ void loop()
         resetServoChain(READY_TO_CATCH_ITEM);
         Send_signal();
     }
-    //投放4个
-    for (int count = 1; count < 5; count++)
+    //投放5个
+    for (int count = 1; count < 6; count++)
     {
+        delay(500);
         resetServoChain(READY_TO_CATCH_FROM_STORAGE);
         Wait_For_signal();
         Catch_Item_From_Storage(count);
         Send_signal();
         Wait_For_signal();
-        PutItem(count + 1);
+        PutItem(count);
         Send_signal();
     }
     delay(2000);
