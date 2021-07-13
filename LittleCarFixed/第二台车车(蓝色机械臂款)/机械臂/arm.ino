@@ -195,10 +195,10 @@ void Catch_Item(uint8_t WhichOne)
     delay(300);
     to_catch = {0, 55, 145, 50, 105, 20};
     Move(to_catch, 1);
-    delay(300);
+    delay(800);
     to_catch.Servo0_angle = 80;
     Move(to_catch, 1);
-    delay(300);
+    delay(800);
     to_catch = {80, 50, 145, 10, 40, 20};
     Move(to_catch, 1);
     delay(300);
@@ -744,16 +744,14 @@ void loop()
     {
         Wait_For_signal();
         Catch_Item(count);
-        if(count!=5)
             resetServoChain(READY_TO_CATCH_ITEM);
         delay(200);
         Send_signal();
     }
     //投放4个
-    for (int count = 2; count < 5; count++)
+    for (int count = 2; count < 6; count++)
     {
         delay(500);
-        if(count!=1)
             resetServoChain(READY_TO_CATCH_FROM_STORAGE);
         Wait_For_signal();
         Catch_Item_From_Storage(count);
@@ -762,7 +760,21 @@ void loop()
         PutItem(count);
         Send_signal();
     }
-    delay(2000);
+    delay(500);
+    resetServoChain(READY_TO_CATCH_ITEM);
+    Wait_For_signal();
+    Catch_Item(5);
+    delay(200);
+    Send_signal();
+    delay(500);
+    Wait_For_signal();
+    Catch_Item_From_Storage(1);
+    Send_signal();
+    Wait_For_signal();
+    PutItem(1);
+    Send_signal();
+    resetServoChain(READY_TO_CATCH_FROM_STORAGE);
+
     while (1)
         ;
     //舵机复位

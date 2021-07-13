@@ -244,12 +244,10 @@ void loop()
     Send_signal();
     Wait_For_signal();
     //等待上层准备就绪
-    Move(ahead,200);
-    delay(100);
     for(int count=0;count<4;count++){
     //前进到直线再返回T字路口右转
     Move(ahead,220);
-    delay(100);
+    delay(300);
     GoTill(ahead, item_Watched, 220, 100);
     //等待稳定
     delay(500);
@@ -266,13 +264,16 @@ void loop()
     GoTill(ahead, isCross, 200, 100);
     //到达十字路口，发送信号并等待上层机械臂就位
     //抓取投放测试
+    //向右转
+    TurnTill(Cross_Right_Mode, attached);
+    delay(500);
+    GoTill(ahead,isT,200,100);
+    delay(500);
+    TurnTill(Cross_Left_Mode, attached);
     for (int count = 0; count < 4; count++)
     {
-        //处理第一个
-        if(count!=0){
-            GoTill(ahead, get_close, 200, 100);
-            GoTill(back, isT, 220, 100);
-        }
+        GoTill(ahead, get_close, 200, 100);
+        GoTill(back, isT, 220, 100);
         //抓取准备
         Send_signal();
         Wait_For_signal();
@@ -289,6 +290,31 @@ void loop()
         TurnTill(Cross_Left_Mode, attached);
         delay(200);
     }
+    Move(back,220);
+    delay(200);
+    GoTill(back, isT, 220, 100);
+    delay(200);
+    TurnTill(Cross_Right_Mode, attached);
+    delay(200);
+    GoTill(ahead, item_Watched, 220, 100);
+    delay(200);
+    //等待稳定
+    delay(500);
+    Send_signal();
+    Wait_For_signal();
+    Move(back,200);
+    //回退到十字路口
+    GoTill(back,isT, 220, 100);
+    //向左转
+    TurnTill(Cross_Left_Mode, attached);
+    GoTill(ahead, isT, 200, 100);
+        Send_signal();
+        Wait_For_signal();
+        GoTill(ahead, get_close, 235, 100);
+        //投放许可
+        Send_signal();
+        Wait_For_signal();
+        GoTill(back, isT, 220, 100);
     while (1)
         ;
     for (int count = 0; count < 5; count++)
