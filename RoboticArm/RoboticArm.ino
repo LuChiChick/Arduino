@@ -4,6 +4,28 @@
 #include "Command.hpp"
 #include "anglePage.hpp"
 
+/**
+ * 辗转相除法求最大公约数
+ * @param a 第一个数
+ * @param b 第二个数
+ * @return 最大公约数
+ */
+uint64_t getGCD(uint64_t a, uint64_t b)
+{
+    return (a % b == 0) ? b : getGCD(b, a % b);
+}
+
+/**
+ * 辗转相除法求最小公倍数
+ * @param a 第一个数
+ * @param b 第二个数
+ * @return 最小公倍数
+ */
+uint64_t getLCM(uint64_t a, uint64_t b)
+{
+    return a / getGCD(a, b) * b;
+}
+
 void setup()
 {
 }
@@ -64,7 +86,7 @@ void loop()
     }
     //减速比初期设置
     moterGroup[0].setThreshold(80);
-    moterGroup[1].setThreshold(20);
+    moterGroup[1].setThreshold(400);
     moterGroup[2].setThreshold(80);
     moterGroup[3].setThreshold(80);
     moterGroup[4].setThreshold(80);
@@ -568,6 +590,15 @@ void loop()
                 //更新角度
                 moterGroup[count].setAngle(doubleInput);
             }
+            // uint64_t leastCommonMultiple; //最小公倍数脉冲计算
+
+            // for (int count = 1; count < 6; count++)
+            // {
+            //     if (pulseTargetGroup[count - 1] == 0 || pulseTargetGroup[count] == 0)
+            //         continue;
+            //     else(leastCommonMultiple=getLCM(leastCommonMultiple,pulseTargetGroup[count]));
+            // }
+
             uint64_t minPulseCount;
 
             for (int count = 0; count < 6; count++)
