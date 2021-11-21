@@ -1,5 +1,9 @@
 #include "StepperMotor.hpp"
 //14，19，27
+
+//步进电机管理组
+std::StepperMoter moterGroup[6];
+
 namespace std
 {
     //默认构造函数

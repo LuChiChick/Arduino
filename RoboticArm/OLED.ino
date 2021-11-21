@@ -3,6 +3,10 @@
 #define OLED_CMD 0
 #define OLED_DATA 1
 #define OLED_PAGE_POS_LEN 8
+
+//屏幕
+std::cus_OLED_SSD1306 OLED(46, 47, 128, 64, true);
+
 namespace std
 {
     //配速，父类函数重载公开定义(照搬)

@@ -1,4 +1,8 @@
 #include "Command.hpp"
+
+//命令处理类
+std::CommandHandler Console(115200);
+
 namespace std
 {
     //构造函数

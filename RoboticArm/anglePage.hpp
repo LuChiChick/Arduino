@@ -1,11 +1,16 @@
 #ifndef __ANGLE_PAGE__
 #define __ANGLE_PAGE__
 
+#include "StepperMotor.hpp"
+
 namespace std
 {
     struct angleInfo
     {
-        double angles[6];
+        double angleGroup[6];   //角度组
+        uint64_t pulseGroup[6]; //脉冲组
+        bool tagGroup[6];       //标志组
+        Direction dirGroup[6];  //方向组
         angleInfo *nextPage;
     };
 
@@ -14,7 +19,10 @@ namespace std
     private:
         //链表页
         angleInfo *startPage;
+        //页数据计数
         int pageCount;
+        //最新角度缓存
+        double latestAngles[6];
 
     public:
         //构造函数
@@ -34,6 +42,7 @@ namespace std
          * @return 是否为空
          */
         bool isEmpty();
+        uint64_t *getPulseGroup();
     };
 }
 

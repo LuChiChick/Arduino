@@ -4,6 +4,14 @@
 #include "Command.hpp"
 #include "anglePage.hpp"
 
+//步进电机管理组
+extern std::StepperMoter moterGroup[6];
+//屏幕
+extern std::cus_OLED_SSD1306 OLED;
+//缓存页
+extern std::anglePage bufferPage;
+//命令处理类
+extern std::CommandHandler Console;
 /**
  * 辗转相除法求最大公约数
  * @param a 第一个数
@@ -28,12 +36,7 @@ uint64_t getLCM(uint64_t a, uint64_t b)
 
 void setup()
 {
-}
-
-void loop()
-{
-    //步进电机管理组
-    std::StepperMoter moterGroup[6];
+    //引脚信息记录
     {
         //步进电机0
         moterGroup[0] = std::StepperMoter(MOTER0_DIR,
@@ -91,12 +94,12 @@ void loop()
     moterGroup[3].setThreshold(80);
     moterGroup[4].setThreshold(80);
     moterGroup[5].setThreshold(80);
-    //屏幕
-    std::cus_OLED_SSD1306 OLED(46, 47, 128, 64, true);
-    //命令处理类
-    std::CommandHandler Console(115200);
-    //缓存页
-    std::anglePage bufferPage;
+    //开启串口
+    Serial.begin(115200);
+}
+
+void loop()
+{
     //屏幕相关设置
     OLED.speedLimit(0);
     OLED.Clear();
@@ -356,11 +359,11 @@ void loop()
             }
             OLED.printf(str "+R%dP\n", pageCount);
             //脉冲集合
-            uint64_t pulseTargetGroup[6];      //脉冲目标组
-            uint64_t pulseCountGroup[6] = {0}; //脉冲计数器
-            bool tagGroup[6] = {0};            //标志位
-            double tempAngle, arr[6];          //角度相关数值
-            uint64_t minPulseCount;            //最小脉冲计数
+            uint64_t pulseTargetGroup[6]; //脉冲目标组
+
+            bool tagGroup[6] = {0};   //标志位
+            double tempAngle, arr[6]; //角度相关数值
+            uint64_t minPulseCount;   //最小脉冲计数
             //循环处理所有链表
             for (int count = 0; count < pageCount || !bufferPage.isEmpty(); count++)
             {
@@ -440,11 +443,11 @@ void loop()
         {
             OLED.printf(str "+RAP....");
             //脉冲集合
-            uint64_t pulseTargetGroup[6];      //脉冲目标组
-            uint64_t pulseCountGroup[6] = {0}; //脉冲计数器
-            bool tagGroup[6] = {0};            //标志位
-            double tempAngle, arr[6];          //角度相关数值
-            uint64_t minPulseCount;            //最小脉冲计数
+            uint64_t pulseTargetGroup[6]; //脉冲目标组
+
+            bool tagGroup[6] = {0};   //标志位
+            double tempAngle, arr[6]; //角度相关数值
+            uint64_t minPulseCount;   //最小脉冲计数
             //循环处理所有链表
             while (!bufferPage.isEmpty())
             {
@@ -559,9 +562,9 @@ void loop()
         case MOTERS_GO_TO_ANGLE: //所有电机转到指定角度组
         {
             //脉冲集合
-            uint64_t pulseTargetGroup[6];      //脉冲目标组
-            uint64_t pulseCountGroup[6] = {0}; //脉冲计数器
-            bool tagGroup[6] = {0};            //标志位
+            uint64_t pulseTargetGroup[6]; //脉冲目标组
+
+            bool tagGroup[6] = {0}; //标志位
             OLED.printf(str "MSG....");
 
             double tempAngle, doubleInput;
